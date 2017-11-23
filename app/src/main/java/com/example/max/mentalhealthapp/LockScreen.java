@@ -4,9 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class LockScreen extends AppCompatActivity implements View.OnClickListener{
 
@@ -15,6 +13,32 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
     ImageView indicator2;
     ImageView indicator3;
     ImageView indicator4;
+
+    @Override
+    public void onBackPressed () {
+        if (digitCounter > 0 ) {
+            switch (digitCounter) {
+                case 1:
+                    indicator1.setImageResource(R.drawable.lockscreen_indicator_circle);
+                    digitCounter--;
+                    break;
+                case 2:
+                    indicator2.setImageResource(R.drawable.lockscreen_indicator_circle);
+                    digitCounter--;
+                    break;
+                case 3:
+                    indicator3.setImageResource(R.drawable.lockscreen_indicator_circle);
+                    digitCounter--;
+                    break;
+                case 4:
+                    indicator4.setImageResource(R.drawable.lockscreen_indicator_circle);
+                    digitCounter--;
+                    break;
+            }
+        }
+        else
+            super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +78,16 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
     digitCounter++;
         switch (digitCounter) {
             case 1:
-                indicator1.setImageResource(R.drawable.my_button_bg_pressed);
+                indicator1.setImageResource(R.drawable.indicator_circle_filled);
                 break;
             case 2:
-                indicator2.setImageResource(R.drawable.my_button_bg_pressed);
+                indicator2.setImageResource(R.drawable.indicator_circle_filled);
                 break;
             case 3:
-                indicator3.setImageResource(R.drawable.my_button_bg_pressed);
+                indicator3.setImageResource(R.drawable.indicator_circle_filled);
                 break;
             case 4:
-                indicator4.setImageResource(R.drawable.my_button_bg_pressed);
+                indicator4.setImageResource(R.drawable.indicator_circle_filled);
                 break;
 
         }
