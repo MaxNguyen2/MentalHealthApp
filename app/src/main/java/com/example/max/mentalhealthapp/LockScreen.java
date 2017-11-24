@@ -1,10 +1,20 @@
 package com.example.max.mentalhealthapp;
 
+import android.content.Context;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class LockScreen extends AppCompatActivity implements View.OnClickListener{
 
@@ -13,28 +23,29 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
     ImageView indicator2;
     ImageView indicator3;
     ImageView indicator4;
+    ArrayList<Integer> enteredPassword = new ArrayList<>();
+    ArrayList<Integer> checkPassword = new ArrayList<>();
+    Toast toast;
+    Vibrator vibe;
+    Animation shake;
 
     @Override
     public void onBackPressed () {
+        if (enteredPassword.size() > 0)
+            enteredPassword.remove(enteredPassword.size()-1);
         if (digitCounter > 0 ) {
             switch (digitCounter) {
                 case 1:
                     indicator1.setImageResource(R.drawable.lockscreen_indicator_circle);
-                    digitCounter--;
                     break;
                 case 2:
                     indicator2.setImageResource(R.drawable.lockscreen_indicator_circle);
-                    digitCounter--;
                     break;
                 case 3:
                     indicator3.setImageResource(R.drawable.lockscreen_indicator_circle);
-                    digitCounter--;
-                    break;
-                case 4:
-                    indicator4.setImageResource(R.drawable.lockscreen_indicator_circle);
-                    digitCounter--;
                     break;
             }
+            digitCounter--;
         }
         else
             super.onBackPressed();
@@ -71,11 +82,21 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
         indicator3 = (ImageView) findViewById(R.id.indicator3);
         indicator4 = (ImageView) findViewById(R.id.indicator4);
 
+        checkPassword.add(2);
+        checkPassword.add(2);
+        checkPassword.add(3);
+        checkPassword.add(4);
+
+        vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+
     }
 
     @Override
     public void onClick (View v){
+
     digitCounter++;
+
         switch (digitCounter) {
             case 1:
                 indicator1.setImageResource(R.drawable.indicator_circle_filled);
@@ -89,8 +110,67 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
             case 4:
                 indicator4.setImageResource(R.drawable.indicator_circle_filled);
                 break;
+        }
+
+        switch (v.getId())
+        {
+            case (R.id.button1):
+                enteredPassword.add(1);
+                break;
+            case (R.id.button2):
+                enteredPassword.add(2);
+                break;
+            case (R.id.button3):
+                enteredPassword.add(3);
+                break;
+            case (R.id.button4):
+                enteredPassword.add(4);
+                break;
+            case (R.id.button5):
+                enteredPassword.add(5);
+                break;
+            case (R.id.button6):
+                enteredPassword.add(6);
+                break;
+            case (R.id.button7):
+                enteredPassword.add(7);
+                break;
+            case (R.id.button8):
+                enteredPassword.add(8);
+                break;
+            case (R.id.button9):
+                enteredPassword.add(9);
+                break;
+            case (R.id.button0):
+                enteredPassword.add(0);
+                break;
+        }
+
+        if (digitCounter == 4){
+            if (enteredPassword.equals(checkPassword))
+                toast = Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT);
+            else {
+                vibe.vibrate(100);
+                toast = Toast.makeText(getApplicationContext(), "Wrong", Toast.LENGTH_SHORT);
+                indicator1.startAnimation(shake);
+                indicator2.startAnimation(shake);
+                indicator3.startAnimation(shake);
+                indicator4.startAnimation(shake);
+                clearIndicators();
+            }
+
+            enteredPassword.clear();
+            digitCounter = 0;
+            toast.show();
 
         }
+    }
+
+    public void clearIndicators (){
+        indicator1.setImageResource(R.drawable.lockscreen_indicator_circle);
+        indicator2.setImageResource(R.drawable.lockscreen_indicator_circle);
+        indicator3.setImageResource(R.drawable.lockscreen_indicator_circle);
+        indicator4.setImageResource(R.drawable.lockscreen_indicator_circle);
     }
 
 }
