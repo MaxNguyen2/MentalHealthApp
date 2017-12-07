@@ -22,20 +22,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
-            SwitchPreference password = (SwitchPreference) findPreference("passwordProtection");
-            SharedPreferences prefs = this.getActivity().getSharedPreferences("key", Context.MODE_PRIVATE);
+            final SwitchPreference password = (SwitchPreference) findPreference("passwordProtection");
+            final SharedPreferences prefs = this.getActivity().getSharedPreferences("key", Context.MODE_PRIVATE);
             final SharedPreferences.Editor editor = prefs.edit();
-            if(prefs.getBoolean("pin", false))
-                password.setIntent(new Intent().setComponent(new ComponentName("com.example.max.mentalhealthapp","com.example.max.mentalhealthapp.DisablePassword")));
-            else
-                password.setIntent(new Intent().setComponent(new ComponentName("com.example.max.mentalhealthapp","com.example.max.mentalhealthapp.SetPassword")));
-
             password.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference p, Object o) {
+                    if(prefs.getBoolean("pin", false))
+                        password.setIntent(new Intent().setComponent(new ComponentName("com.example.max.mentalhealthapp","com.example.max.mentalhealthapp.DisablePassword")));
+                    else
+                        password.setIntent(new Intent().setComponent(new ComponentName("com.example.max.mentalhealthapp","com.example.max.mentalhealthapp.SetPassword")));
                     boolean switched = ((SwitchPreference) p).isChecked();
                     editor.putBoolean("pin", !switched);
-                    editor.apply();
+                    editor.commit();
                     return true;
                 }
             });
