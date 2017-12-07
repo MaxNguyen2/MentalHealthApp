@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="passwordProtection"
+        android:summary="Require a 4-digit PIN to be entered when the app is opened."
+        android:title="Enable password protection">
+    </SwitchPreference>
+
+</PreferenceScreen>
