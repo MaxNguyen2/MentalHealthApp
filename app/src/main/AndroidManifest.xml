@@ -17,13 +17,26 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LockScreen"
-            android:label="Mental Health App">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent-filter>
+            android:label="Mental Health App" />
+        <activity android:name=".SetPassword" />
+        <activity android:name=".HomeActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity"/>
         </activity>
 
+        <activity android:name=".ActivityLauncher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".DisablePassword"></activity>
     </application>
 
 </manifest>

@@ -1,9 +1,12 @@
 package com.example.max.mentalhealthapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -82,10 +85,12 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
         indicator3 = (ImageView) findViewById(R.id.indicator3);
         indicator4 = (ImageView) findViewById(R.id.indicator4);
 
-        checkPassword.add(2);
-        checkPassword.add(2);
-        checkPassword.add(3);
-        checkPassword.add(4);
+        SharedPreferences prefs = getSharedPreferences("key", Context.MODE_PRIVATE);
+        String password = prefs.getString("password","");
+        for (int i = 0; i < password.length(); i++)
+        {
+            checkPassword.add(Character.getNumericValue(password.charAt(i)));
+        }
 
         vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
@@ -94,7 +99,6 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick (View v){
-
     digitCounter++;
 
         switch (digitCounter) {
@@ -145,10 +149,23 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
                 enteredPassword.add(0);
                 break;
         }
+        check();
+    }
 
+    public void clearIndicators (){
+        indicator1.setImageResource(R.drawable.lockscreen_indicator_circle);
+        indicator2.setImageResource(R.drawable.lockscreen_indicator_circle);
+        indicator3.setImageResource(R.drawable.lockscreen_indicator_circle);
+        indicator4.setImageResource(R.drawable.lockscreen_indicator_circle);
+    }
+
+    public void check () {
         if (digitCounter == 4){
-            if (enteredPassword.equals(checkPassword))
+            if (enteredPassword.equals(checkPassword)) {
                 toast = Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT);
+                Intent myIntent = new Intent(LockScreen.this, HomeActivity.class);
+                startActivity(myIntent);
+            }
             else {
                 vibe.vibrate(100);
                 toast = Toast.makeText(getApplicationContext(), "Wrong", Toast.LENGTH_SHORT);
@@ -162,15 +179,7 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
             enteredPassword.clear();
             digitCounter = 0;
             toast.show();
-
         }
-    }
-
-    public void clearIndicators (){
-        indicator1.setImageResource(R.drawable.lockscreen_indicator_circle);
-        indicator2.setImageResource(R.drawable.lockscreen_indicator_circle);
-        indicator3.setImageResource(R.drawable.lockscreen_indicator_circle);
-        indicator4.setImageResource(R.drawable.lockscreen_indicator_circle);
     }
 
 }
