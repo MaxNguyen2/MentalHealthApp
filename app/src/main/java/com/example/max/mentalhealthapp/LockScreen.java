@@ -165,6 +165,7 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
                 toast = Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT);
                 Intent myIntent = new Intent(LockScreen.this, HomeActivity.class);
                 startActivity(myIntent);
+                finish();
             }
             else {
                 vibe.vibrate(100);

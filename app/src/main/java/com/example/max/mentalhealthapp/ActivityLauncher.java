@@ -19,6 +19,7 @@ public class ActivityLauncher extends AppCompatActivity {
         else
             intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+        finish();
 
 
     }
