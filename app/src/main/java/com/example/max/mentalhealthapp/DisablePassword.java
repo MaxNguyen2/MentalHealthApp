@@ -1,33 +1,29 @@
 package com.example.max.mentalhealthapp;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+//Disables the password
 public class DisablePassword extends SetPassword {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        title.setText("Enter Password to Disable");
+        title.setText("Enter Password to Disable"); //changes title text
     }
 
     @Override
     public void check(){
-        if (digitCounter == 4){
-            if (enteredPassword.equals(checkPassword)) {
-                finish();
+            if (enteredPassword.equals(checkPassword)) { //checks if entered password is the set password
+                SharedPreferences prefs = this.getSharedPreferences("key", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("password", "");
+                editor.apply();
+                finish(); //ends activity if they are equal
             }
-            else {
-                vibe.vibrate(100);
-                indicator1.startAnimation(shake);
-                indicator2.startAnimation(shake);
-                indicator3.startAnimation(shake);
-                indicator4.startAnimation(shake);
-                clearIndicators();
+            else { //clears indicator circles and makes them shake to indicate that wrong password was entered
+                reset();
             }
-            enteredPassword.clear();
-            digitCounter = 0;
-        }
     }
 }

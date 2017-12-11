@@ -13,6 +13,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         Button settings = (Button) findViewById(R.id.settingsButton);
         settings.setOnClickListener(this);
 
@@ -21,9 +22,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick (View v){
         switch (v.getId()){
-            case R.id.settingsButton:
+            case R.id.settingsButton: //goes to settings page when button is clicked
                 Intent myIntent = new Intent(HomeActivity.this, SettingsActivity.class);
                 HomeActivity.this.startActivity(myIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
         }
     }

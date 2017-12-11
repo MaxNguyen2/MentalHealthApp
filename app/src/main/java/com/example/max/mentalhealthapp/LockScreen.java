@@ -19,25 +19,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+//Super class of DisablePassword and SetPassword
 public class LockScreen extends AppCompatActivity implements View.OnClickListener{
 
-    int digitCounter = 0;
+    int digitCounter = 0; //counts how many digits have been entered
+
+    //circles that show how many digits of password have been entered
     ImageView indicator1;
     ImageView indicator2;
     ImageView indicator3;
     ImageView indicator4;
-    ArrayList<Integer> enteredPassword = new ArrayList<>();
-    ArrayList<Integer> checkPassword = new ArrayList<>();
+
+    ArrayList<Integer> enteredPassword = new ArrayList<>(); //stores digits that user enters
+    ArrayList<Integer> checkPassword = new ArrayList<>(); //stores digits of the set password
     Toast toast;
     Vibrator vibe;
     Animation shake;
 
     @Override
-    public void onBackPressed () {
-        if (enteredPassword.size() > 0)
-            enteredPassword.remove(enteredPassword.size()-1);
-        if (digitCounter > 0 ) {
-            switch (digitCounter) {
+    public void onBackPressed () { //when the back button is pressed
+        if (digitCounter > 0 ) { //when the user has entered at least one digit
+            enteredPassword.remove(enteredPassword.size()-1); //removes the last entered digit
+            switch (digitCounter) { //changes the appearance of the indicator circles to indicate that a digit has been removed
                 case 1:
                     indicator1.setImageResource(R.drawable.lockscreen_indicator_circle);
                     break;
@@ -59,6 +62,7 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
 
+        //creates references to all the buttons of the number grid
         Button one = (Button) findViewById(R.id.button1);
         one.setOnClickListener(this);
         Button two = (Button) findViewById(R.id.button2);
@@ -87,7 +91,7 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
 
         SharedPreferences prefs = getSharedPreferences("key", Context.MODE_PRIVATE);
         String password = prefs.getString("password","");
-        for (int i = 0; i < password.length(); i++)
+        for (int i = 0; i < password.length(); i++) //stores the digits of the set password into the array
         {
             checkPassword.add(Character.getNumericValue(password.charAt(i)));
         }
@@ -99,9 +103,9 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick (View v){
-    digitCounter++;
+    digitCounter++; //increases to indicate that a digit has been entered
 
-        switch (digitCounter) {
+        switch (digitCounter) { //makes the corresponding indicator circle to be filled to show that a digit has been entered
             case 1:
                 indicator1.setImageResource(R.drawable.indicator_circle_filled);
                 break;
@@ -116,7 +120,7 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
                 break;
         }
 
-        switch (v.getId())
+        switch (v.getId()) //adds digit to array that corresponds to button that is pressed
         {
             case (R.id.button1):
                 enteredPassword.add(1);
@@ -149,38 +153,43 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
                 enteredPassword.add(0);
                 break;
         }
+
+        if (digitCounter == 4) //when 4 digits have been entered
         check();
     }
 
-    public void clearIndicators (){
+    public void clearIndicators (){ //makes all the indicator circles empty to indicate that entered digits have been cleared
         indicator1.setImageResource(R.drawable.lockscreen_indicator_circle);
         indicator2.setImageResource(R.drawable.lockscreen_indicator_circle);
         indicator3.setImageResource(R.drawable.lockscreen_indicator_circle);
         indicator4.setImageResource(R.drawable.lockscreen_indicator_circle);
     }
 
-    public void check () {
-        if (digitCounter == 4){
-            if (enteredPassword.equals(checkPassword)) {
+    public void check() {
+            if (enteredPassword.equals(checkPassword)) { //when entered password is the same as the stored password
                 toast = Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT);
-                Intent myIntent = new Intent(LockScreen.this, HomeActivity.class);
+                Intent myIntent = new Intent(LockScreen.this, HomeActivity.class); //goes to home screen
                 startActivity(myIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
-            else {
-                vibe.vibrate(100);
-                toast = Toast.makeText(getApplicationContext(), "Wrong", Toast.LENGTH_SHORT);
-                indicator1.startAnimation(shake);
-                indicator2.startAnimation(shake);
-                indicator3.startAnimation(shake);
-                indicator4.startAnimation(shake);
-                clearIndicators();
-            }
 
-            enteredPassword.clear();
-            digitCounter = 0;
-            toast.show();
-        }
+            else { //if password does not match, clears indicator circles and entered digits
+                reset();
+                toast = Toast.makeText(getApplicationContext(), "Wrong", Toast.LENGTH_SHORT);
+            }
+            toast.show(); //shows message if right or wrong password was entered
+    }
+
+    public void reset() {
+        vibe.vibrate(100);
+        indicator1.startAnimation(shake);
+        indicator2.startAnimation(shake);
+        indicator3.startAnimation(shake);
+        indicator4.startAnimation(shake);
+        clearIndicators();
+        enteredPassword.clear();
+        digitCounter = 0;
     }
 
 }

@@ -8,8 +8,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
+import android.util.Log;
 
-
+//Settings page for the app
 public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,21 +25,37 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             final SwitchPreference password = (SwitchPreference) findPreference("passwordProtection");
             final SharedPreferences prefs = this.getActivity().getSharedPreferences("key", Context.MODE_PRIVATE);
-            final SharedPreferences.Editor editor = prefs.edit();
-            password.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            password.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() { //when switch preference changes state
                 @Override
                 public boolean onPreferenceChange(Preference p, Object o) {
-                    if(prefs.getBoolean("pin", false))
+                    if(prefs.getBoolean("pin", false)) //opens DisablePassword if feature is on
                         password.setIntent(new Intent().setComponent(new ComponentName("com.example.max.mentalhealthapp","com.example.max.mentalhealthapp.DisablePassword")));
-                    else
+                    else //opens SetPassword if feature is off
                         password.setIntent(new Intent().setComponent(new ComponentName("com.example.max.mentalhealthapp","com.example.max.mentalhealthapp.SetPassword")));
-                    boolean switched = ((SwitchPreference) p).isChecked();
-                    editor.putBoolean("pin", !switched);
-                    editor.commit();
                     return true;
                 }
             });
         }
+
+        @Override
+        public void onResume() {
+            SwitchPreference password = (SwitchPreference) findPreference("passwordProtection");
+            boolean switched = password.isChecked();
+            SharedPreferences prefs = this.getActivity().getSharedPreferences("key", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            //accounts for cases when user backs out of activity without setting or disabling password
+            if (prefs.getString("password","").equals("") && switched)
+                password.setChecked(false);
+            else if (!prefs.getString("password","").equals("") && !switched)
+                password.setChecked(true);
+
+            //stores value of switch 
+            editor.putBoolean("pin", password.isChecked());
+            editor.commit();
+            super.onResume();
+        }
+
 
     }
 }

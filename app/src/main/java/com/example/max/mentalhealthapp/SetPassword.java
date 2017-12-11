@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+//Sets password. Password has to be entered twice to set it.
 public class SetPassword extends LockScreen{
 
     boolean confirm = false;
@@ -30,40 +31,32 @@ public class SetPassword extends LockScreen{
 
     @Override
     public void check() {
-        if (digitCounter == 4) {
-            if (!confirm) {
-                checkPassword = new ArrayList<>(enteredPassword);
-                confirm = true;
+            if (!confirm) { //if this is the first time a password was entered
+                checkPassword = new ArrayList<>(enteredPassword); //sets checkPassword to equal enteredPassword
+                confirm = true; //sets variable to true to indicate that a password has already been entered
                 enteredPassword.clear();
                 digitCounter = 0;
                 clearIndicators();
-                title.setText("Confirm Password");
+                title.setText("Confirm Password"); //changes title to indicate that password should be re-entered
             }
-            else if (checkPassword.equals(enteredPassword)) {
+            else if (checkPassword.equals(enteredPassword)) { //if the re-entered password equals the password that was first entered
                 String stringPassword = "";
-                for (Integer i : enteredPassword) {
+                for (Integer i : enteredPassword) { //converts array to string so that it can be stored
                     stringPassword = stringPassword + i.toString();
                 }
                 SharedPreferences prefs = this.getSharedPreferences("key", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("password", stringPassword);
                 editor.apply();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
-            else {
-                clearIndicators();
-                vibe.vibrate(100);
-                digitCounter = 0;
+            else { //if re-entered password does not equal the password that was first entered, makes user try again
+                reset();
                 title.setText("Set Password");
-                indicator1.startAnimation(shake);
-                indicator2.startAnimation(shake);
-                indicator3.startAnimation(shake);
-                indicator4.startAnimation(shake);
-                enteredPassword.clear();
                 checkPassword.clear();
                 confirm = false;
             }
-        }
     }
 }
 
