@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
-
+    Intent myIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +17,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Button settings = (Button) findViewById(R.id.settingsButton);
         settings.setOnClickListener(this);
+        Button mood = (Button) findViewById(R.id.moodButton);
+        mood.setOnClickListener(this);
 
     }
 
@@ -23,7 +26,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick (View v){
         switch (v.getId()){
             case R.id.settingsButton: //goes to settings page when button is clicked
-                Intent myIntent = new Intent(HomeActivity.this, SettingsActivity.class);
+                myIntent = new Intent(HomeActivity.this, SettingsActivity.class);
+                HomeActivity.this.startActivity(myIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
+            case R.id.moodButton:
+                myIntent = new Intent(HomeActivity.this, MoodMonitoring.class);
                 HomeActivity.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
