@@ -11,20 +11,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class MoodMonitoring extends AppCompatActivity {
-    private ListView mDrawerList;
-    private ArrayAdapter<String> mAdapter;
-    private Intent myIntent;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
+     ListView mDrawerList;
+     ArrayAdapter<String> mAdapter;
+     Intent myIntent;
+    ActionBarDrawerToggle mDrawerToggle;
+     DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_monitoring);
-        Log.d("ALERT", "Hello");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -32,29 +32,42 @@ public class MoodMonitoring extends AppCompatActivity {
         mDrawerList = (ListView) findViewById(R.id.navList);
         addDrawerItems();
 
+        Button button = (Button) findViewById(R.id.reportButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick (View v)
+            {
+                myIntent = new Intent(MoodMonitoring.this, MoodReporting.class);
+                MoodMonitoring.this.startActivity(myIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
+        Log.d("HELLO", "UGH");
     }
 
-    private void addDrawerItems() {
+    public void addDrawerItems() {
+        Log.d("HELLO", "CALLING FROM SUPER");
         String[] navArray = {"Home", "Mood Monitoring", "Safety Plan", "Breathing Exercises", "Crisis Lines", "Information", "Settings"};
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navArray);
         mDrawerList.setAdapter(mAdapter);
+        mDrawerList.bringToFront();
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("ALERT", "Hello");
                 if (position == 0) {
                     myIntent = new Intent(MoodMonitoring.this, HomeActivity.class);
                     MoodMonitoring.this.startActivity(myIntent);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 } else if (position == 1) {
-                    mDrawerLayout.closeDrawers();
+                    myIntent = new Intent(MoodMonitoring.this, MoodMonitoring.class);
+                    MoodMonitoring.this.startActivity(myIntent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             }
         });
     }
 
-    private void setupDrawer () {
+     public void setupDrawer () {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {};
         mDrawerToggle.syncState();
         mDrawerToggle.setDrawerIndicatorEnabled(true);

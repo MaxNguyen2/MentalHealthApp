@@ -39,7 +39,8 @@
 
         <!-- Disables password -->
         <activity android:name=".DisablePassword" />
-        <activity android:name=".MoodMonitoring"></activity>
+        <activity android:name=".MoodMonitoring" />
+        <activity android:name=".MoodReporting"></activity>
     </application>
 
 </manifest>
