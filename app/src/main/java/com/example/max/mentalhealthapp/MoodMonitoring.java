@@ -41,11 +41,9 @@ public class MoodMonitoring extends AppCompatActivity {
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
-        Log.d("HELLO", "UGH");
     }
 
     public void addDrawerItems() {
-        Log.d("HELLO", "CALLING FROM SUPER");
         String[] navArray = {"Home", "Mood Monitoring", "Safety Plan", "Breathing Exercises", "Crisis Lines", "Information", "Settings"};
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navArray);
         mDrawerList.setAdapter(mAdapter);
@@ -76,7 +74,6 @@ public class MoodMonitoring extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_action_name);
-
     }
 
     @Override
