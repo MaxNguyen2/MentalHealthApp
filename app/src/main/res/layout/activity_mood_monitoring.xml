@@ -26,7 +26,8 @@
             android:background="@android:color/background_light"
             android:visibility="visible"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="8dp" />
+            tools:layout_editor_absoluteY="8dp"
+           />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

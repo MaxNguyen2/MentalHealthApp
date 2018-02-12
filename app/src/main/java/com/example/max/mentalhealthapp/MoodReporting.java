@@ -2,8 +2,8 @@ package com.example.max.mentalhealthapp;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.graphics.Color;
 import android.icu.util.Calendar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +42,7 @@ public class MoodReporting extends MoodMonitoring {
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(Color.rgb(245, 124, 0));
+        window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.StatusOrange));
 
 
         myCalendar = Calendar.getInstance(); //gets current time and date information
@@ -99,7 +99,6 @@ public class MoodReporting extends MoodMonitoring {
     private void updateLabel() {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
         dateText.setText(sdf.format(myCalendar.getTime()));
     }
 

@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="MoodOrange">#ff9800</color>
-    <color name="MoodSelector">#ffad43</color>
+    <color name="LightOrange">#ffa726</color>
+    <color name="StatusOrange">#f57c00</color>
 </resources>

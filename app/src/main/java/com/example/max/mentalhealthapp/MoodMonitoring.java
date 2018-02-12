@@ -1,6 +1,7 @@
 package com.example.max.mentalhealthapp;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,6 +32,12 @@ public class MoodMonitoring extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //sets status bar color to be dark orange
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.StatusOrange));
+
         //sets up navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setupDrawer();
@@ -49,7 +58,7 @@ public class MoodMonitoring extends AppCompatActivity {
     //sets up navigation list with the pages for the different features
     public void addDrawerItems() {
         String[] navArray = {"Home", "Mood Monitoring", "Safety Plan", "Breathing Exercises", "Crisis Lines", "Information", "Settings"};
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navArray);
+        mAdapter = new ArrayAdapter<>(this, R.layout.roboto_medium_list, navArray);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.bringToFront();
 
