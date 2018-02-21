@@ -42,6 +42,8 @@
 
         <activity android:name=".MoodMonitoring" />
         <activity android:name=".MoodReporting" />
+
+        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>
