@@ -27,6 +27,8 @@ import android.widget.TimePicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -36,7 +38,7 @@ public class MoodReporting extends MoodMonitoring {
     TextView dateText;
     TextView timeText;
     Calendar myCalendar;
-    SeekBar happySlider, energySlider, irritatedSlider, anxiousSlider;
+    DiscreteSeekBar happySlider, energySlider, irritatedSlider, anxiousSlider;
     EditText eventNotes;
 
     @Override
@@ -61,10 +63,10 @@ public class MoodReporting extends MoodMonitoring {
 
         setupTimeDate();
 
-        happySlider = (SeekBar) findViewById(R.id.happySlider);
-        energySlider = (SeekBar) findViewById(R.id.energySlider);
-        irritatedSlider = (SeekBar) findViewById(R.id.irritatedSlider);
-        anxiousSlider = (SeekBar) findViewById(R.id.anxiousSlider);
+        happySlider = (DiscreteSeekBar) findViewById(R.id.happySlider);
+        energySlider = (DiscreteSeekBar) findViewById(R.id.energySlider);
+        irritatedSlider = (DiscreteSeekBar) findViewById(R.id.irritatedSlider);
+        anxiousSlider = (DiscreteSeekBar) findViewById(R.id.anxiousSlider);
         eventNotes = (EditText) findViewById(R.id.eventNotes);
 
         ImageView gear = (ImageView) findViewById(R.id.imageView);
@@ -92,6 +94,7 @@ public class MoodReporting extends MoodMonitoring {
             prefsEditor.putBoolean("alarm",true);
         }
         prefsEditor.commit();
+
 
 
     }
@@ -191,13 +194,16 @@ public class MoodReporting extends MoodMonitoring {
         AlarmManager am = (AlarmManager) MoodReporting.this.getSystemService(MoodReporting.this.ALARM_SERVICE);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
+
     /*
     public void testReport() {
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences("key",MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString("moodArray", "");
         ArrayList<MoodReport> obj = gson.fromJson(json, new TypeToken<ArrayList<MoodReport>>(){}.getType());
-        Log.d("TESTING", obj.get(0).getNotes());
+        Log.d("TESTING",String.valueOf(obj.size()));
+        Log.d("TESTING", String.valueOf(obj.get(obj.size()-1).getHappy()));
     }
     */
+
 }

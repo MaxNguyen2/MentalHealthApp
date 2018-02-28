@@ -180,21 +180,21 @@
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold" />
 
-                    <SeekBar
+                    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
                         android:id="@+id/happySlider"
-                        style="@style/Widget.AppCompat.SeekBar.Discrete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="0dp"
-                        android:background="@null"
-                        android:max="6"
-                        android:maxHeight="3dp"
-                        android:progress="3"
-                        android:progressDrawable="@drawable/happy_progress"
-                        android:thumb="@drawable/thumb_image"
-                        android:tickMark="@drawable/tickmark" />
+                        app:dsb_rippleColor="@android:color/transparent"
+                        app:dsb_indicatorSeparation="-10dp"
+                        app:dsb_min="1"
+                        app:dsb_max="7"
+                        app:dsb_value="4"
+                        app:dsb_progressColor="#FFFFC107"
+                        app:dsb_indicatorColor="#FFFFC107"
+                        app:dsb_thumbSize="20dp"
+                       />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -229,21 +229,19 @@
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold" />
 
-                    <SeekBar
+                    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
                         android:id="@+id/energySlider"
-                        style="@style/Widget.AppCompat.SeekBar.Discrete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="0dp"
-                        android:background="@null"
-                        android:max="6"
-                        android:maxHeight="3dp"
-                        android:progress="3"
-                        android:progressDrawable="@drawable/energized_progress"
-                        android:thumb="@drawable/thumb_image"
-                        android:tickMark="@drawable/tickmark" />
+                        app:dsb_rippleColor="@android:color/transparent"
+                        app:dsb_indicatorSeparation="-10dp"
+                        app:dsb_min="1"
+                        app:dsb_max="7"
+                        app:dsb_value="4"
+                        app:dsb_thumbSize="20dp"
+                        />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -278,21 +276,22 @@
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold" />
 
-                    <SeekBar
+                    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
                         android:id="@+id/irritatedSlider"
-                        style="@style/Widget.AppCompat.SeekBar.Discrete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="0dp"
-                        android:background="@null"
-                        android:max="6"
-                        android:maxHeight="3dp"
-                        android:progress="3"
-                        android:progressDrawable="@drawable/irritated_progress"
-                        android:thumb="@drawable/thumb_image"
-                        android:tickMark="@drawable/tickmark" />
+                        app:dsb_rippleColor="@android:color/transparent"
+                        app:dsb_indicatorSeparation="-10dp"
+                        app:dsb_min="1"
+                        app:dsb_max="7"
+                        app:dsb_value="4"
+                        app:dsb_progressColor="#FFF44336"
+                        app:dsb_indicatorColor="#FFF44336"
+                        app:dsb_thumbSize="20dp"
+                        />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -327,21 +326,22 @@
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold" />
 
-                    <SeekBar
+                    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
                         android:id="@+id/anxiousSlider"
-                        style="@style/Widget.AppCompat.SeekBar.Discrete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginTop="0dp"
-                        android:background="@null"
-                        android:max="6"
-                        android:maxHeight="3dp"
-                        android:progress="3"
-                        android:progressDrawable="@drawable/anxious_progress"
-                        android:thumb="@drawable/thumb_image"
-                        android:tickMark="@drawable/tickmark" />
+                        app:dsb_rippleColor="@android:color/transparent"
+                        app:dsb_indicatorSeparation="-10dp"
+                        app:dsb_min="1"
+                        app:dsb_max="7"
+                        app:dsb_value="4"
+                        app:dsb_progressColor="#FF9C27B0"
+                        app:dsb_indicatorColor="#FF9C27B0"
+                        app:dsb_thumbSize="20dp"
+                        />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
