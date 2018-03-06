@@ -12,6 +12,7 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.util.Log;
 import android.widget.TimePicker;
@@ -31,7 +32,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             final SwitchPreference password = (SwitchPreference) findPreference("passwordProtection");
             final SharedPreferences prefs = this.getActivity().getSharedPreferences("key", Context.MODE_PRIVATE);
-            final SharedPreferences.Editor prefsEdit = prefs.edit();
 
             password.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() { //when switch preference changes state
                 @Override
@@ -44,44 +44,99 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-
             final SwitchPreference notification = (SwitchPreference) findPreference("notificationSwitch");
-            notification.setSummary(prefs.getString("summary", (String) notification.getSummary()));
-            Log.d("READ",prefs.getString("summary",(String) notification.getSummary()));
             notification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() { //when switch preference changes state
                 @Override
                 public boolean onPreferenceChange(Preference p, Object o) {
                     if (notification.isChecked() == false) {// when no notification is set
-                        Calendar mcurrentTime = Calendar.getInstance(); //gets current time
-                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                        int minute = mcurrentTime.get(Calendar.MINUTE);
-                        TimePickerDialog mTimePicker = new TimePickerDialogFixedNougatSpinner(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                                boolean isPM = (selectedHour >= 12);
-                                String text = "Choose to have notifications that remind you to report your mood at a specified time daily.\nNOTIFICATION TIME: " + String.format("%d:%02d %s", (selectedHour == 12 || selectedHour == 0) ? 12 : selectedHour % 12, selectedMinute, isPM ? "PM" : "AM");
-                                notification.setSummary(text); //sets text to be selected time
-                                setAlarm(selectedHour, selectedMinute);
-                                prefsEdit.putString("summary",text);
-                                prefsEdit.commit();
-                            }
+                        Calendar calendar = Calendar.getInstance();
+                        //testing
+                        /*
+                        calendar.set(Calendar.HOUR_OF_DAY, 8);
+                        calendar.set(Calendar.MINUTE, 0);
+                        calendar.set(Calendar.SECOND, 0);
+                        Intent intent = new Intent(getContext(), AlarmReceiver.class);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 8, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+                        long start = calendar.getTimeInMillis();
+                        if (calendar.before(Calendar.getInstance()))
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
 
-                        }, hour, minute, false);
-                        mTimePicker.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            public void onDismiss(DialogInterface dialog) {
-                                if (notification.getSummary().equals("Choose to have notifications that remind you to report your mood at a specified time daily."))
-                                    notification.setChecked(false);
-                            }
-                        });
-                        mTimePicker.setTitle("Select Time"); //title of time picker dialog
-                        mTimePicker.show();
+                        calendar.set(Calendar.HOUR_OF_DAY, 10);
+                        pendingIntent = PendingIntent.getBroadcast(getContext(), 10, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        if (calendar.before(Calendar.getInstance()))
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
 
-                    } else {
-                        notification.setSummary("Choose to have notifications that remind you to report your mood at a specified time daily.");
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent(getContext(), AlarmReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
-                        AlarmManager am = (AlarmManager) getContext().getSystemService(getContext().ALARM_SERVICE);
-                        am.cancel(pendingIntent);
+                        calendar.set(Calendar.HOUR_OF_DAY, 12);
+                        pendingIntent = PendingIntent.getBroadcast(getContext(), 12, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        if (calendar.before(Calendar.getInstance()))essss
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
+
+                        calendar.set(Calendar.HOUR_OF_DAY, 16);
+                        pendingIntent = PendingIntent.getBroadcast(getContext(), 16, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        if (calendar.before(Calendar.getInstance()))
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
+
+                        calendar.set(Calendar.HOUR_OF_DAY, 18);
+                        pendingIntent = PendingIntent.getBroadcast(getContext(), 18, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        if (calendar.before(Calendar.getInstance()))
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent); */
+                        for (int hour = 8; hour < 20; hour = hour + 2) {
+                            if (hour == 14)
+                                hour = 16;
+                            calendar.set(Calendar.HOUR_OF_DAY, hour);
+                            calendar.set(Calendar.MINUTE, 0);
+                            calendar.set(Calendar.SECOND, 0);
+                            Intent intent = new Intent(getContext(), AlarmReceiver.class);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), hour, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            AlarmManager am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+                            long start = calendar.getTimeInMillis();
+                            if (calendar.before(Calendar.getInstance()))
+                                start = start + AlarmManager.INTERVAL_DAY;
+                            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
+                        }
+/*
+                        calendar.set(Calendar.MINUTE, 56);
+                        pendingIntent = PendingIntent.getBroadcast(getContext(), 10, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        start = calendar.getTimeInMillis();
+                        if (calendar.before(Calendar.getInstance()))
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
+
+                        calendar.set(Calendar.MINUTE, 57);
+                        pendingIntent = PendingIntent.getBroadcast(getContext(), 12, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        start = calendar.getTimeInMillis();
+                        if (calendar.before(Calendar.getInstance()))
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
+
+                        calendar.set(Calendar.MINUTE, 58);
+                        pendingIntent = PendingIntent.getBroadcast(getContext(), 16, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        start = calendar.getTimeInMillis();
+                        if (calendar.before(Calendar.getInstance()))
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
+
+                        calendar.set(Calendar.MINUTE, 59);
+                        pendingIntent = PendingIntent.getBroadcast(getContext(), 18, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        start = calendar.getTimeInMillis();
+                        if (calendar.before(Calendar.getInstance()))
+                            start = start + AlarmManager.INTERVAL_DAY;
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent); */
+
+
                     }
+                    else {
+                        for (int hour = 8; hour < 20; hour = hour + 2) {
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), hour, new Intent(getContext(), AlarmReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+                        am.cancel(pendingIntent);
+                    }}
 
                     return true;
                 }
@@ -106,19 +161,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             editor.commit();
             super.onResume();
         }
-
-        public void setAlarm(int hour, int min) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, hour);
-            calendar.set(Calendar.MINUTE, min);
-            calendar.set(Calendar.SECOND, 0);
-            Intent intent1 = new Intent(getContext(), AlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager am = (AlarmManager) getContext().getSystemService(getContext().ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
-
-
     }
 }
+
 

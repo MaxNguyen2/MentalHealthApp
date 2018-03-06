@@ -167,7 +167,7 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
 
     public void check() {
             if (enteredPassword.equals(checkPassword)) { //when entered password is the same as the stored password
-                toast = Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getApplicationContext(), "Correct", Toast.LENGTH_SHORT);
                 Intent myIntent = new Intent(LockScreen.this, HomeActivity.class); //goes to home screen
                 startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -176,7 +176,7 @@ public class LockScreen extends AppCompatActivity implements View.OnClickListene
 
             else { //if password does not match, clears indicator circles and entered digits
                 reset();
-                toast = Toast.makeText(getApplicationContext(), "Wrong", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_SHORT);
             }
             toast.show(); //shows message if right or wrong password was entered
     }

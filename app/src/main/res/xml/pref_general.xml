@@ -9,7 +9,6 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="notificationSwitch"
-        android:summary="Choose to have notifications that remind you to report your mood at a specified time daily."
+        android:summary="Choose to have 5 notifications that remind you to report your mood throughout the day."
         android:title="Enable notifications"/>
-
 </PreferenceScreen>

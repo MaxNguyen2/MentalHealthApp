@@ -53,6 +53,14 @@ public class MoodMonitoring extends AppCompatActivity {
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
+        Button graphButton = (Button) findViewById(R.id.graphButton);
+        graphButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                myIntent = new Intent(MoodMonitoring.this, MoodGraphs.class);
+                MoodMonitoring.this.startActivity(myIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
     }
 
     //sets up navigation list with the pages for the different features

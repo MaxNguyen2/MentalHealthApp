@@ -31,6 +31,7 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 //page for users to make a report on their mood
@@ -38,7 +39,7 @@ public class MoodReporting extends MoodMonitoring {
     TextView dateText;
     TextView timeText;
     Calendar myCalendar;
-    DiscreteSeekBar happySlider, energySlider, irritatedSlider, anxiousSlider;
+    DiscreteSeekBar happySlider, energySlider, irritatedSlider, anxiousSlider, sadSlider;
     EditText eventNotes;
 
     @Override
@@ -68,6 +69,7 @@ public class MoodReporting extends MoodMonitoring {
         irritatedSlider = (DiscreteSeekBar) findViewById(R.id.irritatedSlider);
         anxiousSlider = (DiscreteSeekBar) findViewById(R.id.anxiousSlider);
         eventNotes = (EditText) findViewById(R.id.eventNotes);
+        sadSlider = (DiscreteSeekBar)  findViewById(R.id.sadSlider);
 
         ImageView gear = (ImageView) findViewById(R.id.imageView);
         gear.setOnClickListener(new View.OnClickListener() {
@@ -85,17 +87,9 @@ public class MoodReporting extends MoodMonitoring {
                 Intent myIntent = new Intent(MoodReporting.this, MoodMonitoring.class);
                 MoodReporting.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
             }
         });
-        SharedPreferences mPrefs = getSharedPreferences("key",MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        if (mPrefs.getBoolean("alarm",false)== false){
-            setAlarm();
-            prefsEditor.putBoolean("alarm",true);
-        }
-        prefsEditor.commit();
-
-
 
     }
 
@@ -147,6 +141,8 @@ public class MoodReporting extends MoodMonitoring {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         boolean isPM = (selectedHour >= 12);
                         timeText.setText(String.format("%d:%02d %s", (selectedHour == 12 || selectedHour == 0) ? 12 : selectedHour % 12, selectedMinute, isPM ? "PM" : "AM")); //sets text to be selected time
+                        myCalendar.set(Calendar.HOUR,selectedHour);
+                        myCalendar.set(Calendar.MINUTE,selectedMinute);
                     }
 
                 }, hour, minute, false);
@@ -165,7 +161,9 @@ public class MoodReporting extends MoodMonitoring {
         int energyRate = energySlider.getProgress();
         int irritatedRate = irritatedSlider.getProgress();
         int anxiousRate = anxiousSlider.getProgress();
+        int sadRate = sadSlider.getProgress();
         String notes = eventNotes.getText().toString();
+        Date dateObj = myCalendar.getTime();
 
         ArrayList<MoodReport> moodArray;
         Gson gson = new Gson();
@@ -175,7 +173,7 @@ public class MoodReporting extends MoodMonitoring {
             moodArray = new ArrayList<>();
         else
             moodArray = gson.fromJson(jsonRetrieve, new TypeToken<ArrayList<MoodReport>>(){}.getType());
-        MoodReport obj = new MoodReport(date, time, happyRate, energyRate, irritatedRate, anxiousRate, notes);
+        MoodReport obj = new MoodReport(date, time, happyRate, energyRate, irritatedRate, anxiousRate, sadRate, notes, dateObj);
 
         moodArray.add(obj);
         String json = gson.toJson(moodArray);
@@ -184,16 +182,6 @@ public class MoodReporting extends MoodMonitoring {
         prefsEditor.commit();
     }
 
-    public void setAlarm() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 22);
-        calendar.set(Calendar.MINUTE, 52);
-        calendar.set(Calendar.SECOND, 0);
-        Intent intent1 = new Intent(MoodReporting.this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MoodReporting.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) MoodReporting.this.getSystemService(MoodReporting.this.ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-    }
 
     /*
     public void testReport() {

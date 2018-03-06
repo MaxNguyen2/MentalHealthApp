@@ -1,20 +1,22 @@
 package com.example.max.mentalhealthapp;
 
-/**
- * Created by Max on 2/12/2018.
- */
+import java.util.Date;
 
-public class MoodReport {
- String date, time, notes;
-    int happy, energy, irritated, anxious;
-    public MoodReport(String d,String t, int h, int e, int i, int a, String n) {
+
+public class MoodReport implements Comparable<MoodReport> {
+ private String date, time, notes;
+    private int happy, energy, irritated, anxious, sad;
+    private Date dateObj;
+    public MoodReport(String d,String t, int h, int e, int i, int a, int s, String n, Date tempDate) {
         date = d;
         time = t;
         happy = h;
         energy = e;
         irritated = i;
         anxious = a;
+        sad = s;
         notes = n;
+        dateObj = tempDate;
     }
 
     public String getDate() {
@@ -43,5 +45,14 @@ public class MoodReport {
 
     public int getAnxious() {
         return anxious;
+    }
+
+    public int getSad() { return sad; }
+
+    public Date getDateObj() { return dateObj; }
+
+    @Override
+    public int compareTo(MoodReport o) {
+        return getDateObj().compareTo(o.getDateObj());
     }
 }
