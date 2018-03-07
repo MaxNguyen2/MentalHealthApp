@@ -31,6 +31,7 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -176,6 +177,7 @@ public class MoodReporting extends MoodMonitoring {
         MoodReport obj = new MoodReport(date, time, happyRate, energyRate, irritatedRate, anxiousRate, sadRate, notes, dateObj);
 
         moodArray.add(obj);
+        Collections.sort(moodArray);
         String json = gson.toJson(moodArray);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         prefsEditor.putString("moodArray",json);
