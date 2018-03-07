@@ -19,21 +19,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences prefs = context.getSharedPreferences("key",Context.MODE_PRIVATE); /*
-        int repeat = prefs.getInt("repeatAlarm",0);
-        repeat++;
-        SharedPreferences.Editor prefsEdit = prefs.edit();
-        prefsEdit.putInt("repeatAlarm",repeat);
-        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-        long when = System.currentTimeMillis();
-        int hour = prefs.getInt("hourAlarm", 10);
-        if (hour == 18)
-            hour = 8;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, hour, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        hour = hour + 2;
-        prefsEdit.putInt("hourAlarm",hour).commit();
-        AlarmManager am = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, (repeat * when), pendingIntent); */
+        SharedPreferences prefs = context.getSharedPreferences("key",Context.MODE_PRIVATE);
 
         SharedPreferences.Editor prefsEdit = prefs.edit();
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
@@ -44,14 +30,12 @@ public class AlarmReceiver extends BroadcastReceiver {
             hour = 8;
         if (hour == 14)
             hour = 16;
-        prefsEdit.putInt("hourAlarm",hour);
-        prefsEdit.commit();
+        prefsEdit.putInt("hourAlarm",hour).commit();
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, hour, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, AlarmManager.INTERVAL_DAY + when, pendingIntent);
-
 
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
@@ -61,7 +45,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         PendingIntent pendIntent = PendingIntent.getActivity(context, hour,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 

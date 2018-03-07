@@ -10,8 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class MoodReportAdapter extends ArrayAdapter<MoodReport> {
+
+    private ArrayList<MoodReport> mArray;
 
     // View lookup cache
     private static class ViewHolder {
@@ -20,14 +24,18 @@ public class MoodReportAdapter extends ArrayAdapter<MoodReport> {
         ImageView notesIcon;
     }
 
-    public MoodReportAdapter(Context context, ArrayList<MoodReport> users) {
-        super(context, R.layout.item_report, users);
+    public MoodReportAdapter(Context context, ArrayList<MoodReport> reports) {
+        super(context, R.layout.item_report, reports);
+        Collections.reverse(reports);
+        mArray = reports;
+
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        if (mArray.size() != 0) {
         // Get the data item for this position
-        MoodReport obj = getItem(position);
+        MoodReport obj = mArray.get(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder;
         if (convertView == null) {
@@ -46,7 +54,7 @@ public class MoodReportAdapter extends ArrayAdapter<MoodReport> {
         }
 
         // Populate the data into the template view using the data object
-        viewHolder.dateTime.setText(obj.getDate().toString().substring(0,obj.getDate().toString().length()-3) + " | " + obj.getTime());
+        viewHolder.dateTime.setText(obj.getDate().substring(0,obj.getDate().length()-3) + " | " + obj.getTime());
         SharedPreferences prefs = getContext().getSharedPreferences("key", Context.MODE_PRIVATE);
         switch (prefs.getString("spinnerText","Happy")) {
             case "Happy":
@@ -71,4 +79,7 @@ public class MoodReportAdapter extends ArrayAdapter<MoodReport> {
         // Return the completed view to render on screen
         return convertView;
     }
-}
+    else {
+            return(LayoutInflater.from(getContext()).inflate(R.layout.empty, parent, false));
+        }
+}}
