@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-//Disables the password
+//disables the password and is called from SettingsActivity
 public class DisablePassword extends SetPassword {
 
     @Override

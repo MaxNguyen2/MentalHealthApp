@@ -17,7 +17,7 @@ import android.preference.SwitchPreference;
 import android.util.Log;
 import android.widget.TimePicker;
 
-//Settings page for the app
+//settings page for the app
 public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 public boolean onPreferenceChange(Preference p, Object o) {
                     if (notification.isChecked() == false) {// when no notification is set
                         Calendar calendar = Calendar.getInstance();
-                        //testing
                         /*
                         calendar.set(Calendar.HOUR_OF_DAY, 8);
                         calendar.set(Calendar.MINUTE, 0);
@@ -86,6 +85,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         if (calendar.before(Calendar.getInstance()))
                             start = start + AlarmManager.INTERVAL_DAY;
                         am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent); */
+
+                        //code does not work
                         for (int hour = 8; hour < 20; hour = hour + 2) {
                             if (hour == 14)
                                 hour = 16;
@@ -131,7 +132,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
 
                     }
-                    else {
+                    else { //disables alarms
                         for (int hour = 8; hour < 20; hour = hour + 2) {
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), hour, new Intent(getContext(), AlarmReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
                         AlarmManager am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);

@@ -18,28 +18,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ReportDialog extends DialogFragment {
-    /* The activity that creates an instance of this dialog fragment must
-     * implement this interface in order to receive event callbacks.
-     * Each method passes the DialogFragment in case the host needs to query it. */
+
+    //so that host activity can do something when dialog buttons are clicked
     interface ReportDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog);
         public void onDialogNegativeClick(DialogFragment dialog);
     }
 
-    // Use this instance of the interface to deliver action events
+    //use this instance of the interface to deliver action events
     ReportDialogListener mListener;
 
-    // Override the Fragment.onAttach() method to instantiate the ReportDialogListener
+    //override the Fragment.onAttach() method to instantiate the ReportDialogListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        // Verify that the host activity implements the callback interface
+        //verify that the host activity implements the callback interface
         try {
-            // Instantiate the ReportDialogListener so we can send events to the host
+            //instantiate the ReportDialogListener so we can send events to the host
             mListener = (ReportDialogListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
+            //the activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString()
                     + " must implement ReportDialogListener");
         }
@@ -47,9 +46,9 @@ public class ReportDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
+        //use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
+        //get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         final SharedPreferences prefs = getActivity().getSharedPreferences("key", Context.MODE_PRIVATE);
@@ -57,7 +56,7 @@ public class ReportDialog extends DialogFragment {
         final ArrayList<MoodReport> moodArray = new Gson().fromJson(prefs.getString("moodArray", ""), new TypeToken<ArrayList<MoodReport>>() {
         }.getType());
 
-            MoodReport obj = moodArray.get(moodArray.size() - position - 1);
+            MoodReport obj = moodArray.get(moodArray.size() - position - 1); //gets mood report object that corresponds to item clicked by user
 
             View v = inflater.inflate(R.layout.mood_dialog, null);
             TextView happy = (TextView) v.findViewById(R.id.happyRating);
@@ -68,16 +67,17 @@ public class ReportDialog extends DialogFragment {
             TextView dateTime = (TextView) v.findViewById(R.id.dateTimeText);
             TextView notesText = (TextView) v.findViewById(R.id.notesText);
             TextView notesLabel = (TextView) v.findViewById(R.id.notesLabel);
+
+            //fill dialog with information from mood report
             happy.setText(String.valueOf(obj.getHappy()));
             sad.setText(String.valueOf(obj.getSad()));
             energized.setText(String.valueOf(obj.getEnergy()));
             irritated.setText(String.valueOf(obj.getIrritated()));
             anxious.setText(String.valueOf(obj.getAnxious()));
-
             dateTime.setText(obj.getDate().substring(0, obj.getDate().length() - 3) + " | " + obj.getTime());
             if (!obj.getNotes().equals("")) {
                 notesText.setText(obj.getNotes());
-            } else {
+            } else { //does not show text boxes if there are no notes in mood report
                 notesLabel.setText("");
                 notesLabel.setHeight(0);
                 notesText.setHeight(0);
@@ -91,13 +91,14 @@ public class ReportDialog extends DialogFragment {
                 })
                 .setNegativeButton("Delete Report", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        moodArray.remove(moodArray.size()-position-1);
+                        moodArray.remove(moodArray.size()-position-1); //deletes mood report
                         Collections.sort(moodArray);
                         prefs.edit().putString("moodArray",new Gson().toJson(moodArray)).commit();
                         mListener.onDialogNegativeClick(ReportDialog.this);
                     }
                 });
-        // Create the AlertDialog object and return it
+
+        //create the AlertDialog object and return it
         return builder.create();
     }
 }

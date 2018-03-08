@@ -155,7 +155,9 @@ public class MoodReporting extends MoodMonitoring {
 
     }
 
+    //stores information selected by user into an object stored into an array
     public void submitReport() {
+        //gets value of widgets
         String date = dateText.getText().toString();
         String time = timeText.getText().toString();
         int happyRate = happySlider.getProgress();
@@ -173,15 +175,14 @@ public class MoodReporting extends MoodMonitoring {
         if (jsonRetrieve == null)
             moodArray = new ArrayList<>();
         else
-            moodArray = gson.fromJson(jsonRetrieve, new TypeToken<ArrayList<MoodReport>>(){}.getType());
-        MoodReport obj = new MoodReport(date, time, happyRate, energyRate, irritatedRate, anxiousRate, sadRate, notes, dateObj);
+            moodArray = gson.fromJson(jsonRetrieve, new TypeToken<ArrayList<MoodReport>>(){}.getType()); //gets array of mood reports
 
-        moodArray.add(obj);
+        MoodReport obj = new MoodReport(date, time, happyRate, energyRate, irritatedRate, anxiousRate, sadRate, notes, dateObj); //creates object with data
+
+        moodArray.add(obj); //adds mood report to existing array
         Collections.sort(moodArray);
         String json = gson.toJson(moodArray);
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        prefsEditor.putString("moodArray",json);
-        prefsEditor.commit();
+        mPrefs.edit().putString("moodArray",json).commit(); //stores array
     }
 
 

@@ -7,12 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
 
+//supposed to set alarms when the device reboots
 public class DeviceBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            /* Setting the alarm here */
             Calendar calendar = Calendar.getInstance();
             for (int hour = 8; hour < 20; hour = hour + 2) {
                 if (hour == 14)

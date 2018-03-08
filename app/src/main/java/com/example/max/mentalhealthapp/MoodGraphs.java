@@ -29,7 +29,6 @@ import java.util.Calendar;
 
 
 public class MoodGraphs extends MoodMonitoring implements ReportDialog.ReportDialogListener {
-
     GraphView graph;
     MaterialSpinner spinner;
     ArrayList<MoodReport> moodArray;
@@ -57,39 +56,41 @@ public class MoodGraphs extends MoodMonitoring implements ReportDialog.ReportDia
 
         prefs = this.getSharedPreferences("key", Context.MODE_PRIVATE);
         final SharedPreferences.Editor prefsEdit = prefs.edit();
-        updateMoodArray();
+        updateMoodArray(); //updates array from SharedPreferences
 
+        //sets up spinner dropdown
         spinner = (MaterialSpinner) findViewById(R.id.spinner);
         spinner.setItems("Happy", "Sad", "Energized", "Irritated", "Anxious");
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) { //updates what is displayed in graph and list
                 prefsEdit.putString("spinnerText",item).commit();
                 formatSeries();
                 formatListView();
             }
         });
 
+        //setting up the graph
         graph = (GraphView) findViewById(R.id.graph);
         GridLabelRenderer styleGraph = graph.getGridLabelRenderer();
-        styleGraph.setVerticalLabelsVisible(false);
+        styleGraph.setVerticalLabelsVisible(false); //disables y axis labels
 
-        // set manual bounds
+        //set manual bounds
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinY(1);
         graph.getViewport().setMaxY(7);
 
-        // enable scaling and scrolling
+        //enable scrolling
         formatSeries();
         graph.getViewport().setScrollable(true);
-        prefsEdit.putString("spinnerText","Happy").commit();
+
+        prefsEdit.putString("spinnerText","Happy").commit(); //so that onCreate the happy data is displayed
         formatListView();
 
-
-        // set date label formatter
-        styleGraph.setNumHorizontalLabels(5); // only 4 because of the space
-        styleGraph.setNumVerticalLabels(7);
+        //sets formatting for labels and graph
+        styleGraph.setNumHorizontalLabels(5); //5 horizontal labels
+        styleGraph.setNumVerticalLabels(7); //7 labels on the vertical axis
         styleGraph.setHumanRounding(false);
         styleGraph.setLabelsSpace(10);
         styleGraph.setPadding(40);
@@ -105,120 +106,130 @@ public class MoodGraphs extends MoodMonitoring implements ReportDialog.ReportDia
             }
         });
     }
+
+    //returns array with data points to graph based on what user selects to graph
     public DataPoint[] data() {
-        if (moodArray.size()!= 0) {
-        int n = moodArray.size(); //to find out the no. of data-points
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(moodArray.get(n-1).getDateObj());
-        cal.set(Calendar.HOUR,0);
-        graph.getViewport().setMaxX(moodArray.get(n-1).getDateObj().getTime());
-        graph.getViewport().setMinX(cal.getTimeInMillis() - 4 * AlarmManager.INTERVAL_DAY);
+        if (moodArray.size()!= 0) { //makes sure array of mood reports is not empty
+            int n = moodArray.size(); //to find out the no. of data-points
 
-        DataPoint[] values = new DataPoint[n]; //creating an object of type
-        DataPoint v;
+            //sets x axis bounds based on the time of the latest report
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(moodArray.get(n-1).getDateObj());
+            cal.set(Calendar.HOUR,0);
+            graph.getViewport().setMaxX(moodArray.get(n-1).getDateObj().getTime());
+            graph.getViewport().setMinX(cal.getTimeInMillis() - 4 * AlarmManager.INTERVAL_DAY);
 
-        switch (spinner.getText().toString()) {
-            case "Happy":
-                for(int i=0; i<n; i++) {
-                    v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getHappy());
-                    values[i] = v;
-                }
-                break;
-            case "Sad":
-                for(int i=0; i<n; i++) {
-                    v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getSad());
-                    values[i] = v;
-                }
-                break;
-            case "Energized":
-                for(int i=0; i<n; i++) {
-                    v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getEnergy());
-                    values[i] = v;
-                }
-                break;
-            case "Irritated":
-                for(int i=0; i<n; i++) {
-                    v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getIrritated());
-                    values[i] = v;
-                }
-                break;
-            case "Anxious":
-                for(int i=0; i<n; i++) {
-                    v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getIrritated());
-                    values[i] = v;
-                }
-                break;
-        }
-        return values; }
-        else
-            return new DataPoint[0];
-    }
+            DataPoint[] values = new DataPoint[n];
+            DataPoint v;
 
-    public void formatSeries() {
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(data());
-            graph.removeAllSeries();
-            series.setDrawDataPoints(true);
-            series.setDataPointsRadius(20);
-            series.setThickness(7);
-
+            //fills array with correct data based on what is selected in the dropdown
             switch (spinner.getText().toString()) {
                 case "Happy":
-                    series.setColor(Color.rgb(255, 193, 7));
+                    for(int i=0; i<n; i++) {
+                        v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getHappy());
+                        values[i] = v;
+                    }
                     break;
                 case "Sad":
-                    series.setColor(Color.rgb(63, 81, 181));
+                    for(int i=0; i<n; i++) {
+                        v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getSad());
+                        values[i] = v;
+                    }
                     break;
                 case "Energized":
-                    series.setColor(Color.rgb(5, 151, 138));
+                    for(int i=0; i<n; i++) {
+                        v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getEnergy());
+                        values[i] = v;
+                    }
                     break;
                 case "Irritated":
-                    series.setColor(Color.rgb(244, 67, 54));
+                    for(int i=0; i<n; i++) {
+                        v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getIrritated());
+                        values[i] = v;
+                    }
                     break;
                 case "Anxious":
-                    series.setColor(Color.rgb(156, 39, 176));
+                    for(int i=0; i<n; i++) {
+                        v = new DataPoint(moodArray.get(i).getDateObj(), moodArray.get(i).getIrritated());
+                        values[i] = v;
+                    }
                     break;
             }
-            graph.addSeries(series);
+            return values;
+        }
+        else
+            return new DataPoint[0]; //returns empty array if there are no mood reports
+    }
+
+    //formats graph with correct color and data based on what user selects in dropdown
+    public void formatSeries() {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(data());
+        graph.removeAllSeries(); //clears graph
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(20);
+        series.setThickness(7);
+
+        //sets graph to be corresponding color
+        switch (spinner.getText().toString()) {
+            case "Happy":
+                series.setColor(Color.rgb(255, 193, 7));
+                break;
+            case "Sad":
+                series.setColor(Color.rgb(63, 81, 181));
+                break;
+            case "Energized":
+                series.setColor(Color.rgb(5, 151, 138));
+                break;
+            case "Irritated":
+                series.setColor(Color.rgb(244, 67, 54));
+                break;
+            case "Anxious":
+                series.setColor(Color.rgb(156, 39, 176));
+                break;
+        }
+        graph.addSeries(series);
     }
 
     public void formatListView() {
-            // Create the adapter to convert the array to views
-            MoodReportAdapter adapter = new MoodReportAdapter(this, moodArray);
-            // Attach the adapter to a ListView
-            ListView listView = (ListView) findViewById(R.id.reportList);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    prefs.edit().putInt("listPosition", position).commit();
-                    if (moodArray.size() != 0)
-                    showReportDialog();
-                }
-            });
+        //create the adapter to convert the array to views
+        MoodReportAdapter adapter = new MoodReportAdapter(this, moodArray);
+        //attach the adapter to a ListView
+        ListView listView = (ListView) findViewById(R.id.reportList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                prefs.edit().putInt("listPosition", position).commit();
+                if (moodArray.size() != 0)
+                    showReportDialog(); //opens dialog when the item is clicked with mood report information
+            }
+        });
     }
 
-    // The dialog fragment receives a reference to this Activity through the
-    // Fragment.onAttach() callback, which it uses to call the following methods
-    // defined by the ReportDialogFragment.ReportDialogListener interface
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        // User touched the dialog's positive button
+        //user touched the dialog's positive button
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        // User touched the dialog's negative button
+        //user touched the dialog's cancel button
         updateMoodArray();
-            formatListView();
-            formatSeries();
+        formatListView();
+        formatSeries();
     }
 
+    //shows dialog with info of mood report
     public void showReportDialog() {
         DialogFragment newFragment = new ReportDialog();
         newFragment.show(getSupportFragmentManager(), "mood");
     }
 
+    //updates array of mood reports from SharedPreferences
     public void updateMoodArray() {
         moodArray = new Gson().fromJson(prefs.getString("moodArray", ""), new TypeToken<ArrayList<MoodReport>>() {
         }.getType());
+
+        if (moodArray == null)
+            moodArray = new ArrayList<>();
     }
 }

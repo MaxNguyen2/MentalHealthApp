@@ -2,11 +2,12 @@ package com.example.max.mentalhealthapp;
 
 import java.util.Date;
 
-
+//object stores data from each mood report
 public class MoodReport implements Comparable<MoodReport> {
  private String date, time, notes;
     private int happy, energy, irritated, anxious, sad;
     private Date dateObj;
+
     public MoodReport(String d,String t, int h, int e, int i, int a, int s, String n, Date tempDate) {
         date = d;
         time = t;
@@ -51,6 +52,7 @@ public class MoodReport implements Comparable<MoodReport> {
 
     public Date getDateObj() { return dateObj; }
 
+    //so that the array can be sorted based on time
     @Override
     public int compareTo(MoodReport o) {
         return getDateObj().compareTo(o.getDateObj());

@@ -30,7 +30,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 HomeActivity.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
-            case R.id.moodButton:
+            case R.id.moodButton: //goes to mood monitoring page
                 myIntent = new Intent(HomeActivity.this, MoodMonitoring.class);
                 HomeActivity.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

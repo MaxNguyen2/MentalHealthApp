@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-//Page where user decides whether to report a mood or view mood graphs
+//page where user decides whether to report a mood or view mood graphs
 public class MoodMonitoring extends AppCompatActivity {
     ListView mDrawerList;
     ArrayAdapter<String> mAdapter;
