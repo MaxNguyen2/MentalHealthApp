@@ -19,6 +19,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         settings.setOnClickListener(this);
         Button mood = (Button) findViewById(R.id.moodButton);
         mood.setOnClickListener(this);
+        Button safety = (Button) findViewById(R.id.safetyButton);
+        safety.setOnClickListener(this);
 
     }
 
@@ -32,6 +34,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.moodButton: //goes to mood monitoring page
                 myIntent = new Intent(HomeActivity.this, MoodMonitoring.class);
+                HomeActivity.this.startActivity(myIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
+            case R.id.safetyButton:
+                myIntent = new Intent(HomeActivity.this, SafetyPlan.class);
                 HomeActivity.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;

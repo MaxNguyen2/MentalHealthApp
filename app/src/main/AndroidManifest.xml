@@ -45,14 +45,14 @@
         <receiver android:name=".AlarmReceiver" />
 
         <!-- Will not be called unless the application explicitly enables it -->
-        <receiver
-            android:name=".DeviceBootReceiver">
+        <receiver android:name=".DeviceBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MoodGraphs"></activity>
+        <activity android:name=".MoodGraphs" />
+        <activity android:name=".SafetyPlan" />
     </application>
 
 </manifest>

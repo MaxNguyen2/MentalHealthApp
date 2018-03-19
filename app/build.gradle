@@ -36,5 +36,7 @@ dependencies {
     compile 'org.adw.library:discrete-seekbar:1.0.1'
     compile 'com.jjoe64:graphview:4.2.1'
     compile 'com.jaredrummler:material-spinner:1.2.4'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     testCompile 'junit:junit:4.12'
 }

@@ -36,7 +36,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             password.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() { //when switch preference changes state
                 @Override
                 public boolean onPreferenceChange(Preference p, Object o) {
-                    if (prefs.getBoolean("pin", false) == true) //opens DisablePassword if feature is on
+                    if (prefs.getBoolean("pin", false)) //opens DisablePassword if feature is on
                         password.setIntent(new Intent().setComponent(new ComponentName("com.example.max.mentalhealthapp", "com.example.max.mentalhealthapp.DisablePassword")));
                     else //opens SetPassword if feature is off
                         password.setIntent(new Intent().setComponent(new ComponentName("com.example.max.mentalhealthapp", "com.example.max.mentalhealthapp.SetPassword")));
@@ -48,9 +48,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             notification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() { //when switch preference changes state
                 @Override
                 public boolean onPreferenceChange(Preference p, Object o) {
-                    if (notification.isChecked() == false) {// when no notification is set
+                    if (!notification.isChecked()) {// when no notification is set
                         Calendar calendar = Calendar.getInstance();
-                        /*
+
                         calendar.set(Calendar.HOUR_OF_DAY, 8);
                         calendar.set(Calendar.MINUTE, 0);
                         calendar.set(Calendar.SECOND, 0);
@@ -64,29 +64,34 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
                         calendar.set(Calendar.HOUR_OF_DAY, 10);
                         pendingIntent = PendingIntent.getBroadcast(getContext(), 10, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        start = calendar.getTimeInMillis();
                         if (calendar.before(Calendar.getInstance()))
                             start = start + AlarmManager.INTERVAL_DAY;
                         am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
 
                         calendar.set(Calendar.HOUR_OF_DAY, 12);
                         pendingIntent = PendingIntent.getBroadcast(getContext(), 12, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        if (calendar.before(Calendar.getInstance()))essss
+                        start = calendar.getTimeInMillis();
+                        if (calendar.before(Calendar.getInstance()))
                             start = start + AlarmManager.INTERVAL_DAY;
                         am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
 
                         calendar.set(Calendar.HOUR_OF_DAY, 16);
                         pendingIntent = PendingIntent.getBroadcast(getContext(), 16, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        start = calendar.getTimeInMillis();
                         if (calendar.before(Calendar.getInstance()))
                             start = start + AlarmManager.INTERVAL_DAY;
                         am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
 
                         calendar.set(Calendar.HOUR_OF_DAY, 18);
                         pendingIntent = PendingIntent.getBroadcast(getContext(), 18, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        start = calendar.getTimeInMillis();
                         if (calendar.before(Calendar.getInstance()))
                             start = start + AlarmManager.INTERVAL_DAY;
-                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent); */
+                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
 
                         //code does not work
+                        /*
                         for (int hour = 8; hour < 20; hour = hour + 2) {
                             if (hour == 14)
                                 hour = 16;

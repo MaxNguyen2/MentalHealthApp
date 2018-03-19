@@ -3,7 +3,20 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="MoodOrange">#ff9800</color>
+    <color name="MoodOrange">#ff8800</color>
     <color name="LightOrange">#ffa726</color>
     <color name="StatusOrange">#f57c00</color>
+    <color name="SafetyRed">#FF2155</color>
+    <color name="StatusRed">#e21c48</color>
+    <color name="Happy1">#ffecb2</color>
+    <color name="Happy2">#ffde7a</color>
+    <color name="Happy3">#ffcf40</color>
+    <color name="Happy4">#ffc107</color>
+    <color name="Happy5">#ffa605</color>
+    <color name="Happy6">#ff8b02</color>
+    <color name="Happy7">#ff7000</color>
+    <color name="SadBlue">#3F51B5</color>
+    <color name="EnergizedGreen">#05978a</color>
+    <color name="IrritatedRed">#F44336</color>
+    <color name="AnxiousPurple">#9C27B0</color>
 </resources>

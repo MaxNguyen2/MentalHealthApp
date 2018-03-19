@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.icu.util.Calendar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,6 +28,7 @@ import android.widget.TimePicker;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
@@ -35,8 +38,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
+
 //page for users to make a report on their mood
-public class MoodReporting extends MoodMonitoring {
+public class MoodReporting extends SetupClass {
     TextView dateText;
     TextView timeText;
     Calendar myCalendar;
@@ -45,31 +49,17 @@ public class MoodReporting extends MoodMonitoring {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_reporting);
+        super.onCreate(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        //sets up navigation drawer
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        setupDrawer();
-        mDrawerList = (ListView) findViewById(R.id.navList);
-        addDrawerItems();
-
-        //sets status bar color to be dark orange
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.StatusOrange));
-
+        setupStatusBar(R.color.StatusOrange);
         setupTimeDate();
 
         happySlider = (DiscreteSeekBar) findViewById(R.id.happySlider);
         energySlider = (DiscreteSeekBar) findViewById(R.id.energySlider);
         irritatedSlider = (DiscreteSeekBar) findViewById(R.id.irritatedSlider);
         anxiousSlider = (DiscreteSeekBar) findViewById(R.id.anxiousSlider);
-        eventNotes = (EditText) findViewById(R.id.eventNotes);
+        eventNotes = (MaterialEditText) findViewById(R.id.eventNotes);
         sadSlider = (DiscreteSeekBar)  findViewById(R.id.sadSlider);
 
         ImageView gear = (ImageView) findViewById(R.id.imageView);
@@ -82,10 +72,12 @@ public class MoodReporting extends MoodMonitoring {
         });
 
         Button submitButton = (Button) findViewById(R.id.submitButton);
+        submitButton.getBackground().setColorFilter(Color.parseColor("#ffa726"), PorterDuff.Mode.MULTIPLY);
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
              submitReport();
                 Intent myIntent = new Intent(MoodReporting.this, MoodMonitoring.class);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 MoodReporting.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
@@ -141,7 +133,7 @@ public class MoodReporting extends MoodMonitoring {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         boolean isPM = (selectedHour >= 12);
-                        timeText.setText(String.format("%d:%02d %s", (selectedHour == 12 || selectedHour == 0) ? 12 : selectedHour % 12, selectedMinute, isPM ? "PM" : "AM")); //sets text to be selected time
+                        timeText.setText(String.format(Locale.US,"%d:%02d %s", (selectedHour == 12 || selectedHour == 0) ? 12 : selectedHour % 12, selectedMinute, isPM ? "PM" : "AM")); //sets text to be selected time
                         myCalendar.set(Calendar.HOUR,selectedHour);
                         myCalendar.set(Calendar.MINUTE,selectedMinute);
                     }
