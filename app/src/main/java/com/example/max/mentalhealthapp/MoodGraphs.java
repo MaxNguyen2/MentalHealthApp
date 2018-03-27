@@ -60,8 +60,10 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
         setupStatusBar(R.color.StatusOrange);
 
 
+
         prefs = this.getSharedPreferences("key", Context.MODE_PRIVATE);
         final SharedPreferences.Editor prefsEdit = prefs.edit();
+        prefsEdit.putString("spinnerText","Happy").commit();
         updateMoodArray(); //updates array from SharedPreferences
         formatListView();
 
