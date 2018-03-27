@@ -20,6 +20,7 @@ import android.widget.ListView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -39,9 +40,12 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogListener{
@@ -162,7 +166,10 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
 
     //updates array of mood reports from SharedPreferences
     public void updateMoodArray() {
-        moodArray = new Gson().fromJson(prefs.getString("moodArray", ""), new TypeToken<ArrayList<MoodReport>>() {
+        if (prefs.getString("moodArray","").equals(""))
+            moodArray = new ArrayList<>();
+        else
+            moodArray = new Gson().fromJson(prefs.getString("moodArray", ""), new TypeToken<ArrayList<MoodReport>>() {
         }.getType());
     }
 
@@ -247,6 +254,37 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
                 break;
         }
     }
+}
 
+class DateAxisFormatter implements IAxisValueFormatter {
+    private long referenceTimestamp; // minimum timestamp in your data set
+    private SimpleDateFormat mDataFormat;
+    private Date mDate;
+
+    public DateAxisFormatter(long timestamp) {
+        referenceTimestamp = timestamp;
+        mDataFormat = new SimpleDateFormat("M/dd", Locale.ENGLISH);
+        mDate = new Date();
+    }
+
+    @Override
+    public String getFormattedValue(float value, AxisBase axis) {
+        // convertedTimestamp = originalTimestamp - referenceTimestamp
+        long convertedTimestamp = (long) value;
+        // Retrieve original timestamp
+        long originalTimestamp = referenceTimestamp + convertedTimestamp;
+        // Convert timestamp to hour:minute
+        return getHour(originalTimestamp);
+    }
+
+    private String getHour(long timestamp){
+        try{
+            mDate.setTime(timestamp);
+            return mDataFormat.format(mDate);
+        }
+        catch(Exception ex){
+            return "xx";
+        }
+    }
 }
 

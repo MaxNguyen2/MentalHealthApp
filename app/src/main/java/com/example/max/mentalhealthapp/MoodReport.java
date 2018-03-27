@@ -58,3 +58,4 @@ public class MoodReport implements Comparable<MoodReport> {
         return getDateObj().compareTo(o.getDateObj());
     }
 }
+
