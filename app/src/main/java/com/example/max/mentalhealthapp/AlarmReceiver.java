@@ -50,7 +50,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder( //sends alarm
-                context).setSmallIcon(android.R.drawable.sym_def_app_icon)
+                context).setSmallIcon(R.drawable.ic_alarm)
                 .setContentTitle("Reminder")
                 .setContentText("Report how your mood has been.").setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)

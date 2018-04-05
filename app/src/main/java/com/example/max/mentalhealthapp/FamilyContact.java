@@ -15,18 +15,15 @@ import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -51,7 +48,7 @@ public class FamilyContact extends SetupClass {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_family_contact);
         super.onCreate(savedInstanceState);
-        setupStatusBar(R.color.StatusRed);
+        setStatusBar(R.color.StatusRed);
 
         prefs = getSharedPreferences("key", Context.MODE_PRIVATE);
         familyList = (ListView) findViewById(R.id.familyList);

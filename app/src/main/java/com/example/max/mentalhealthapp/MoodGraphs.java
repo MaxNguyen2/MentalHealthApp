@@ -1,20 +1,12 @@
 package com.example.max.mentalhealthapp;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -27,22 +19,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -61,7 +43,7 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
         setContentView(R.layout.activity_mood_graphs);
         super.onCreate(savedInstanceState);
         Log.d("DEBUGGING","STARTING ACTIVITY");
-        setupStatusBar(R.color.StatusOrange);
+        setStatusBar(R.color.StatusOrange);
 
 
 

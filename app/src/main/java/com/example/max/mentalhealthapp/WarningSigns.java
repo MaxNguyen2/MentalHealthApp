@@ -3,7 +3,6 @@ package com.example.max.mentalhealthapp;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +34,7 @@ public class WarningSigns extends SetupClass {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_warning_signs);
         super.onCreate(savedInstanceState);
-        setupStatusBar(R.color.StatusRed);
+        setStatusBar(R.color.StatusRed);
 
         prefs = getSharedPreferences("key", Context.MODE_PRIVATE);
         newItem = (EditText) findViewById(R.id.newItem);

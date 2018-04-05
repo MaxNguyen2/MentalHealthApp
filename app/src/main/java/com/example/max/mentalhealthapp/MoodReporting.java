@@ -51,7 +51,7 @@ public class MoodReporting extends SetupClass {
         setContentView(R.layout.activity_mood_reporting);
         super.onCreate(savedInstanceState);
 
-        setupStatusBar(R.color.StatusOrange);
+        setStatusBar(R.color.StatusOrange);
         setupTimeDate();
 
         happySlider = (DiscreteSeekBar) findViewById(R.id.happySlider);
@@ -264,12 +264,6 @@ class TimePickerDialogFixedNougatSpinner extends TimePickerDialog {
     public TimePickerDialogFixedNougatSpinner(Context context, OnTimeSetListener listener, int hourOfDay, int minute, boolean is24HourView) {
 
         super(context, listener, hourOfDay, minute, is24HourView);
-        fixSpinner(context, hourOfDay, minute, is24HourView);
-    }
-
-    public TimePickerDialogFixedNougatSpinner(Context context, int themeResId, OnTimeSetListener listener, int hourOfDay, int minute, boolean is24HourView) {
-
-        super(context, themeResId, listener, hourOfDay, minute, is24HourView);
         fixSpinner(context, hourOfDay, minute, is24HourView);
     }
 

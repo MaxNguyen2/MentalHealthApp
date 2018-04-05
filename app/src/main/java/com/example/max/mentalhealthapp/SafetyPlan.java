@@ -1,16 +1,10 @@
 package com.example.max.mentalhealthapp;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class SafetyPlan extends SetupClass {
 
@@ -18,7 +12,7 @@ public class SafetyPlan extends SetupClass {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_safety_plan);
         super.onCreate(savedInstanceState);
-        setupStatusBar(R.color.StatusRed);
+        setStatusBar(R.color.StatusRed);
 
         Button warningButton = (Button) findViewById(R.id.warningButton);
         warningButton.setOnClickListener(new View.OnClickListener() {

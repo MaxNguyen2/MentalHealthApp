@@ -73,10 +73,10 @@
         app:layout_constraintGuide_percent="0.686666666" />
 
     <Button
-        android:id="@+id/button18"
+        android:id="@+id/breathingButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#FF0082F3"
+        android:background="@color/BreathingBlue"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@null"
         android:text="Breathing Exercises"

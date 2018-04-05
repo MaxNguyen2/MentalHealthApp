@@ -15,7 +15,7 @@ public class CopingStrategies extends WarningSigns {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Coping Strategies");
-        setupStatusBar(R.color.StatusRed);
+        setStatusBar(R.color.StatusRed);
 
         key = "strategiesList";
         setArrayAdapter();

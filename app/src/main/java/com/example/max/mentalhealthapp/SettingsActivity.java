@@ -89,53 +89,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         if (calendar.before(Calendar.getInstance()))
                             start = start + AlarmManager.INTERVAL_DAY;
                         am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
-
-                        //code does not work
-                        /*
-                        for (int hour = 8; hour < 20; hour = hour + 2) {
-                            if (hour == 14)
-                                hour = 16;
-                            calendar.set(Calendar.HOUR_OF_DAY, hour);
-                            calendar.set(Calendar.MINUTE, 0);
-                            calendar.set(Calendar.SECOND, 0);
-                            Intent intent = new Intent(getContext(), AlarmReceiver.class);
-                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), hour, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                            AlarmManager am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-                            long start = calendar.getTimeInMillis();
-                            if (calendar.before(Calendar.getInstance()))
-                                start = start + AlarmManager.INTERVAL_DAY;
-                            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
-                        }
-/*
-                        calendar.set(Calendar.MINUTE, 56);
-                        pendingIntent = PendingIntent.getBroadcast(getContext(), 10, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        start = calendar.getTimeInMillis();
-                        if (calendar.before(Calendar.getInstance()))
-                            start = start + AlarmManager.INTERVAL_DAY;
-                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
-
-                        calendar.set(Calendar.MINUTE, 57);
-                        pendingIntent = PendingIntent.getBroadcast(getContext(), 12, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        start = calendar.getTimeInMillis();
-                        if (calendar.before(Calendar.getInstance()))
-                            start = start + AlarmManager.INTERVAL_DAY;
-                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
-
-                        calendar.set(Calendar.MINUTE, 58);
-                        pendingIntent = PendingIntent.getBroadcast(getContext(), 16, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        start = calendar.getTimeInMillis();
-                        if (calendar.before(Calendar.getInstance()))
-                            start = start + AlarmManager.INTERVAL_DAY;
-                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent);
-
-                        calendar.set(Calendar.MINUTE, 59);
-                        pendingIntent = PendingIntent.getBroadcast(getContext(), 18, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        start = calendar.getTimeInMillis();
-                        if (calendar.before(Calendar.getInstance()))
-                            start = start + AlarmManager.INTERVAL_DAY;
-                        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, start, pendingIntent); */
-
-
                     }
                     else { //disables alarms
                         for (int hour = 8; hour < 20; hour = hour + 2) {
@@ -143,7 +96,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         AlarmManager am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
                         am.cancel(pendingIntent);
                     }}
-
                     return true;
                 }
             });
@@ -169,5 +121,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 }
+
+
 
 

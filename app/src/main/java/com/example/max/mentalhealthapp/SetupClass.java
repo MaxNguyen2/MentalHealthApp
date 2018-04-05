@@ -34,8 +34,7 @@ public class SetupClass extends AppCompatActivity {
         setupDrawer();
         mDrawerList = (ListView) findViewById(R.id.navList);
         addDrawerItems();
-
-        setupStatusBar(android.R.color.black);
+        setStatusBar(android.R.color.black);
     }
 
     //sets up navigation list with the pages for the different features
@@ -64,6 +63,12 @@ public class SetupClass extends AppCompatActivity {
                         myIntent = new Intent(SetupClass.this, SafetyPlan.class);
                         SetupClass.this.startActivity(myIntent);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        break;
+                    case 3:
+                        myIntent = new Intent(SetupClass.this, BreathingExercises.class);
+                        SetupClass.this.startActivity(myIntent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        break;
                 }
             }
         });
@@ -87,7 +92,7 @@ public class SetupClass extends AppCompatActivity {
         return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
-    public void setupStatusBar (int color){
+    public void setStatusBar(int color){
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

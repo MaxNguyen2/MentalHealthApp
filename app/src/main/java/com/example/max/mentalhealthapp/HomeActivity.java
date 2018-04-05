@@ -21,6 +21,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mood.setOnClickListener(this);
         Button safety = (Button) findViewById(R.id.safetyButton);
         safety.setOnClickListener(this);
+        Button breathing = (Button) findViewById(R.id.breathingButton);
+        breathing.setOnClickListener(this);
 
     }
 
@@ -39,6 +41,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.safetyButton:
                 myIntent = new Intent(HomeActivity.this, SafetyPlan.class);
+                HomeActivity.this.startActivity(myIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
+            case R.id.breathingButton:
+                myIntent = new Intent(HomeActivity.this, BreathingExercises.class);
                 HomeActivity.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
