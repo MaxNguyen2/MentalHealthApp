@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
+//Second section of safety plan feature where users can make a list of their personal coping strategies
 public class CopingStrategies extends WarningSigns {
 
     @Override
@@ -17,12 +18,12 @@ public class CopingStrategies extends WarningSigns {
         toolbar.setTitle("Coping Strategies");
         setStatusBar(R.color.StatusRed);
 
-        key = "strategiesList";
-        setArrayAdapter();
+        key = "strategiesList"; //sets key for storing list of strategies
+        setArrayAdapter(); //fills list with previously saved list of strategies
     }
 
     @Override
-    public void setListListener(){
+    public void setListListener(){ //when list item is clicked, opens dialog that allows user to delete entry
         signsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(CopingStrategies.this);
@@ -30,13 +31,13 @@ public class CopingStrategies extends WarningSigns {
                         .setMessage("Are you sure you want to delete this entry?")
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                removeIndex = position;
-                                view.startAnimation(animation);
+                                removeIndex = position; //removes list item at that position
+                                view.startAnimation(animation); //animates deletion
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
+                                //does nothing besides closing the dialog
                             }
                         })
                         .show();
@@ -45,7 +46,7 @@ public class CopingStrategies extends WarningSigns {
     }
 
     @Override
-    public void setInfoDialog() {
+    public void setInfoDialog() { //opens information dialog when icon is clicked
         ImageView info = (ImageView) findViewById(R.id.infoIcon);
         info.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

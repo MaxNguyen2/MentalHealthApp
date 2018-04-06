@@ -17,12 +17,13 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.Collections;
 
+//Dialog for displaying all the information of the mood report when it is clicked from the list from the mood graphing page
 public class ReportDialog extends DialogFragment {
 
     //so that host activity can do something when dialog buttons are clicked
     interface ReportDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
     }
 
     //use this instance of the interface to deliver action events
@@ -84,21 +85,18 @@ public class ReportDialog extends DialogFragment {
             }
 
         builder.setView(v);
-
         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                })
+            public void onClick(DialogInterface dialog, int id) {}})
                 .setNegativeButton("Delete Report", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        moodArray.remove(moodArray.size()-position-1); //deletes mood report
+                        moodArray.remove(moodArray.size() - position - 1); //deletes mood report
                         Collections.sort(moodArray);
-                        prefs.edit().putString("moodArray",new Gson().toJson(moodArray)).commit();
+                        prefs.edit().putString("moodArray", new Gson().toJson(moodArray)).commit();
                         mListener.onDialogNegativeClick(ReportDialog.this);
                     }
                 });
 
-        //create the AlertDialog object and return it
+        //create the dialog object and return it
         return builder.create();
     }
 }

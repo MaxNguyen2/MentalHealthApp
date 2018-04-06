@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+//Base class that sets up navigation drawer and toolbar so that all other activities can extend it
 public class SetupClass extends AppCompatActivity {
     ListView mDrawerList;
     ArrayAdapter<String> mAdapter;
@@ -92,6 +93,7 @@ public class SetupClass extends AppCompatActivity {
         return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
+    //sets color of status bar
     public void setStatusBar(int color){
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

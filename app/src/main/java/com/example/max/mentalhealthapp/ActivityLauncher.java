@@ -12,12 +12,13 @@ public class ActivityLauncher extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences prefs = getSharedPreferences("key", Context.MODE_PRIVATE); //gets settings
+        SharedPreferences prefs = getSharedPreferences("key", Context.MODE_PRIVATE);
+
         Intent intent;
         boolean pin = prefs.getBoolean("pin", false); //checks if password protection feature is enabled
         if (pin) //if it is, then the lock screen is opened
             intent = new Intent(this, LockScreen.class);
-        else
+        else //if password protection is disabled, then goes to home screen
             intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();

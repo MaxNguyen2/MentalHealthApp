@@ -3,10 +3,10 @@ package com.example.max.mentalhealthapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import android.widget.Button;
 
-public class SafetyPlan extends SetupClass {
+//Navigation page for the safety plan feature
+public class SafetyPlan extends SetupClass implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,40 +15,41 @@ public class SafetyPlan extends SetupClass {
         setStatusBar(R.color.StatusRed);
 
         Button warningButton = (Button) findViewById(R.id.warningButton);
-        warningButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        warningButton.setOnClickListener(this);
+
+        Button strategiesButton = (Button) findViewById(R.id.strategiesButton);
+        strategiesButton.setOnClickListener(this);
+
+        Button familyButton = (Button) findViewById(R.id.familyButton);
+        familyButton.setOnClickListener(this);
+
+        Button proButton = (Button) findViewById(R.id.proButton);
+        proButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) { //goes to appropriate section of safety plan feature when button is clicked
+            case R.id.warningButton:
                 myIntent = new Intent(SafetyPlan.this, WarningSigns.class);
                 startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
-        });
-
-        Button strategiesButton = (Button) findViewById(R.id.strategiesButton);
-        strategiesButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+                break;
+            case R.id.strategiesButton:
                 myIntent = new Intent(SafetyPlan.this, CopingStrategies.class);
                 startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
-        });
-
-        Button familyButton = (Button) findViewById(R.id.familyButton);
-        familyButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+                break;
+            case R.id.familyButton:
                 myIntent = new Intent(SafetyPlan.this, FamilyContact.class);
                 startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
-        });
-
-        Button proButton = (Button) findViewById(R.id.proButton);
-        proButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+                break;
+            case R.id.proButton:
                 myIntent = new Intent(SafetyPlan.this, ContactProfessionals.class);
                 startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
-        });
+                break;
+        }
     }
-
 }

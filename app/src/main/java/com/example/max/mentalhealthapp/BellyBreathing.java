@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 
 public class BellyBreathing extends SetupClass implements View.OnClickListener{
-    int counter = 0;
-    int repetitions = -2;
+    int counter = 0; //keeps track of the page of the exercise
+    int repetitions = -2; //keeps track of how many times the exercise has been repeated, displays 0 first
     TextView instructionText, counterText;
     Button nextButton;
 
@@ -19,6 +19,7 @@ public class BellyBreathing extends SetupClass implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setStatusBar(R.color.StatusBlue);
 
+        //creates references to layout elements
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(this);
         Button exitButton = (Button) findViewById(R.id.exitButton);
@@ -31,7 +32,7 @@ public class BellyBreathing extends SetupClass implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextButton:
-                switch (counter){
+                switch (counter){ //determines what is displayed based on the step of the exercise the user is on
                     case 0:
                         counter++;
                         instructionText.setText("Put one hand on your belly just below your ribs and the other hand on your chest.");
@@ -54,7 +55,7 @@ public class BellyBreathing extends SetupClass implements View.OnClickListener{
                         break;
                 }
                 break;
-            case R.id.exitButton:
+            case R.id.exitButton: //sends user back to breathing exercises navigation page
                 myIntent = new Intent(BellyBreathing.this, BreathingExercises.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 BellyBreathing.this.startActivity(myIntent);

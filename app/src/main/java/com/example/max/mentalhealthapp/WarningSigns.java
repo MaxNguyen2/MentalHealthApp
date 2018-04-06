@@ -19,8 +19,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
+//First section of the safety plan feature where users create a list of their warning signs of a crisis
 public class WarningSigns extends SetupClass {
-
     ListView signsList;
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
@@ -47,6 +47,7 @@ public class WarningSigns extends SetupClass {
         setInfoDialog();
     }
 
+    //detects when a list item is clicked and allows user to delete warning sign
     public void setListListener() {
         signsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
@@ -60,38 +61,26 @@ public class WarningSigns extends SetupClass {
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
+                            public void onClick(DialogInterface dialog, int which) {}}) //does nothing
                         .show();
             }
         });
     }
-    /*
-    private void setupWindowAnimations() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            Slide slide = new Slide();
-            slide.setInterpolator(new LinearInterpolator());
-            slide.setSlideEdge(Gravity.RIGHT);
-            window.setEnterTransition(slide);
-            window.setReturnTransition(slide);
-        }
-    } */
 
+    //adds user's entered warning sign to list to be displayed
     public void onAddItem (View v) {
         itemsAdapter.add(newItem.getText().toString());
         newItem.setText("");
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop(){ //stores list of warning signs before activity ends
         super.onStop();
         String json = new Gson().toJson(items);
         prefs.edit().putString(key,json).apply();
     }
 
+    //opens information dialog when icon is clicked
     public void setInfoDialog() {
         ImageView info = (ImageView) findViewById(R.id.infoIcon);
         info.setOnClickListener(new View.OnClickListener() {
@@ -100,14 +89,13 @@ public class WarningSigns extends SetupClass {
                 builder.setTitle("Tips")
                         .setMessage("Enter in your personal warning signs that a crisis is developing. Consider thoughts, images, situations, moods, or behaviors.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                            public void onClick(DialogInterface dialog, int which) {}})
                         .show();
             }
         });
     }
 
+    //fills list with previously saved list
     public void setArrayAdapter(){
         if (prefs.getString(key, "").equals(""))
             items = new ArrayList<>();
@@ -118,9 +106,9 @@ public class WarningSigns extends SetupClass {
         signsList.setAdapter(itemsAdapter);
     }
 
+    //sets animation object that is used for when an item is deleted
     public void setAnimation(){
-        animation = AnimationUtils.loadAnimation(this,
-                R.anim.slide_out);
+        animation = AnimationUtils.loadAnimation(this, R.anim.slide_out);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -128,8 +116,8 @@ public class WarningSigns extends SetupClass {
             @Override
             public void onAnimationRepeat(Animation animation) {}
             @Override
-            public void onAnimationEnd(Animation animation) {
-                items.remove(removeIndex);
+            public void onAnimationEnd(Animation animation) { //when animation is finished
+                items.remove(removeIndex); //remove item from list
                 itemsAdapter.notifyDataSetChanged();
             }
         });

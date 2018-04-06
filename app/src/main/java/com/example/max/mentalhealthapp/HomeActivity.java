@@ -8,13 +8,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+//Home navigation page
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
     Intent myIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //creates references to layout elements
         Button settings = (Button) findViewById(R.id.settingsButton);
         settings.setOnClickListener(this);
         Button mood = (Button) findViewById(R.id.moodButton);
@@ -27,7 +30,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick (View v){
+    public void onClick (View v){ //directs user to corresponding page when button is clicked
         switch (v.getId()){
             case R.id.settingsButton: //goes to settings page when button is clicked
                 myIntent = new Intent(HomeActivity.this, SettingsActivity.class);
@@ -39,17 +42,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 HomeActivity.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
-            case R.id.safetyButton:
+            case R.id.safetyButton: //goes to safety plan page
                 myIntent = new Intent(HomeActivity.this, SafetyPlan.class);
                 HomeActivity.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
-            case R.id.breathingButton:
+            case R.id.breathingButton: //goes to breathing exercises page
                 myIntent = new Intent(HomeActivity.this, BreathingExercises.class);
                 HomeActivity.this.startActivity(myIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
         }
     }
-
 }

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-//page where user decides whether to report a mood or view mood graphs
+//Page where user decides whether to report a mood or view mood graphs
 public class MoodMonitoring extends SetupClass {
 
     @Override
@@ -23,6 +23,7 @@ public class MoodMonitoring extends SetupClass {
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
+        //goes to mood graphing page when button is clicked
         Button graphButton = (Button) findViewById(R.id.graphButton);
         graphButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

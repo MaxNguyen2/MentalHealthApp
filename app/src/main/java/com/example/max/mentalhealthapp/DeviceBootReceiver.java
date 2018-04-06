@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
 
-//supposed to set alarms when the device reboots
+//Supposed to set alarms when the device reboots
 public class DeviceBootReceiver extends BroadcastReceiver {
 
     @Override

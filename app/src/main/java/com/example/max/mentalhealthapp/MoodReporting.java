@@ -37,8 +37,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
-
-//page for users to make a report on their mood
+//Page for users to make a report on their mood
 public class MoodReporting extends SetupClass {
     TextView dateText;
     TextView timeText;
@@ -62,7 +61,7 @@ public class MoodReporting extends SetupClass {
         sadSlider = (DiscreteSeekBar)  findViewById(R.id.sadSlider);
 
         ImageView gear = (ImageView) findViewById(R.id.imageView);
-        gear.setOnClickListener(new View.OnClickListener() {
+        gear.setOnClickListener(new View.OnClickListener() { //goes to setting page when iconis clicked
             public void onClick(View v) {
                 Intent myIntent = new Intent(MoodReporting.this, SettingsActivity.class);
                 MoodReporting.this.startActivity(myIntent);
@@ -71,10 +70,9 @@ public class MoodReporting extends SetupClass {
         });
 
         Button submitButton = (Button) findViewById(R.id.submitButton);
-        submitButton.getBackground().setColorFilter(Color.parseColor("#ffa726"), PorterDuff.Mode.MULTIPLY);
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-             submitReport();
+                submitReport(); //stores object with reported information
                 Intent myIntent = new Intent(MoodReporting.this, MoodMonitoring.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 MoodReporting.this.startActivity(myIntent);
@@ -175,33 +173,22 @@ public class MoodReporting extends SetupClass {
         String json = gson.toJson(moodArray);
         mPrefs.edit().putString("moodArray",json).commit(); //stores array
     }
-    /*
-    public void testReport() {
-        SharedPreferences mPrefs = getSharedPreferences("key",MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = mPrefs.getString("moodArray", "");
-        ArrayList<MoodReport> obj = gson.fromJson(json, new TypeToken<ArrayList<MoodReport>>(){}.getType());
-        Log.d("TESTING",String.valueOf(obj.size()));
-        Log.d("TESTING", String.valueOf(obj.get(obj.size()-1).getHappy()));
-    }
-    */
 }
-class MoodReportAdapter extends ArrayAdapter<MoodReport> {
 
+//Fills list with information from stored list of mood reports
+class MoodReportAdapter extends ArrayAdapter<MoodReport> {
     private ArrayList<MoodReport> mArray;
 
-    //view lookup cache
     private static class ViewHolder {
         TextView dateTime;
         TextView moodRating;
         ImageView notesIcon;
     }
 
-    public MoodReportAdapter(Context context, ArrayList<MoodReport> reports) {
+    MoodReportAdapter(Context context, ArrayList<MoodReport> reports) {
         super(context, R.layout.item_report, reports);
         Collections.reverse(reports); //reverses order of array so that top of list can be the latest mood reports
         mArray = reports;
-
     }
 
     @Override
@@ -249,26 +236,25 @@ class MoodReportAdapter extends ArrayAdapter<MoodReport> {
                     break;
             }
 
-            if (!obj.getNotes().equals(""))
+            if (!obj.getNotes().equals("")) //if the mood report has notes, then show a notes icon
                 viewHolder.notesIcon.setImageResource(R.drawable.notes_icon);
-            //return the completed view to render on screen
-            return convertView;
+            return convertView; //return the completed view to render on screen
         }
-        else {
+        else
             return(LayoutInflater.from(getContext()).inflate(R.layout.empty, parent, false)); //returns empty list
-        }
-    }}
+    }
+}
 
+//Custom library for time picker dialog
 class TimePickerDialogFixedNougatSpinner extends TimePickerDialog {
 
-    public TimePickerDialogFixedNougatSpinner(Context context, OnTimeSetListener listener, int hourOfDay, int minute, boolean is24HourView) {
+    TimePickerDialogFixedNougatSpinner(Context context, OnTimeSetListener listener, int hourOfDay, int minute, boolean is24HourView) {
 
         super(context, listener, hourOfDay, minute, is24HourView);
         fixSpinner(context, hourOfDay, minute, is24HourView);
     }
 
     private void fixSpinner(Context context, int hourOfDay, int minute, boolean is24HourView) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // android:timePickerMode spinner and clock began in Lollipop
             try {
                 // Get the theme's android:timePickerMode
                 final int MODE_SPINNER = 2;
@@ -311,7 +297,7 @@ class TimePickerDialogFixedNougatSpinner extends TimePickerDialog {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }
+
     }
 
     private static Field findField(Class objectClass, Class fieldClass, String expectedName) {

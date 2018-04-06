@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-//Super class of DisablePassword and SetPassword
+//Super class of DisablePassword and SetPassword, sets up page where users can enter a pin with a numberpad
 public class LockScreen extends AppCompatActivity implements View.OnClickListener{
 
     int digitCounter = 0; //counts how many digits have been entered

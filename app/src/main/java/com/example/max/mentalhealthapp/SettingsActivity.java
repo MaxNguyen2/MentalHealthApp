@@ -17,7 +17,7 @@ import android.preference.SwitchPreference;
 import android.util.Log;
 import android.widget.TimePicker;
 
-//settings page for the app
+//Settings page for the app where the user can turn on notifications and password protection feature
 public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             final SwitchPreference password = (SwitchPreference) findPreference("passwordProtection");
             final SharedPreferences prefs = this.getActivity().getSharedPreferences("key", Context.MODE_PRIVATE);
 
-            password.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() { //when switch preference changes state
+            //when switch preference changes state
+            password.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference p, Object o) {
                     if (prefs.getBoolean("pin", false)) //opens DisablePassword if feature is on
@@ -51,6 +52,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     if (!notification.isChecked()) {// when no notification is set
                         Calendar calendar = Calendar.getInstance();
 
+                        //sets 5 alarms that are throughout the day
                         calendar.set(Calendar.HOUR_OF_DAY, 8);
                         calendar.set(Calendar.MINUTE, 0);
                         calendar.set(Calendar.SECOND, 0);

@@ -29,7 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
+//Displays mood data in graphs and past mood reports in a list
 public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogListener{
     LineChart graph;
     MaterialSpinner spinner;
@@ -45,15 +45,13 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
         Log.d("DEBUGGING","STARTING ACTIVITY");
         setStatusBar(R.color.StatusOrange);
 
-
-
         prefs = this.getSharedPreferences("key", Context.MODE_PRIVATE);
         final SharedPreferences.Editor prefsEdit = prefs.edit();
-        prefsEdit.putString("spinnerText","Happy").commit();
-        updateMoodArray(); //updates array from SharedPreferences
+        prefsEdit.putString("spinnerText","Happy").commit(); //stores string so that graph displays happy mood data by default
+        updateMoodArray(); //updates array of mood reports from SharedPreferences
         formatListView();
 
-        //sets up spinner dropdown
+        //sets up dropdown menu for selecting which mood data set to graph
         spinner = (MaterialSpinner) findViewById(R.id.spinner);
         spinner.setItems("Happy", "Sad", "Energized", "Irritated", "Anxious");
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
@@ -155,6 +153,7 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
         }.getType());
     }
 
+    //updates data shown in graph to be what is selected in dropdown menu
     public void updateGraph() {
             graph.clear();
         if (moodArray.size() != 0) {
@@ -163,14 +162,14 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
             dataSet.setDrawCircleHole(false);
             dataSet.setLineWidth(2f);
             dataSet.setCircleRadius(4f);
-            dataSet.setHighlightEnabled(true);
             LineData lineData = new LineData(dataSet);
             lineData.setDrawValues(false);
             graph.setData(lineData);
         }
-            graph.invalidate();
+        graph.animateY(2000, Easing.EasingOption.EaseInOutElastic);
     }
 
+    //formats graph
     public void formatGraph() {
         Log.d("DEBUGGING","FORMATTING GRAPH");
         graph.clear();
@@ -178,36 +177,40 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
             dataSet = new LineDataSet(data(), "Label");
             setGraphColor();
             dataSet.setDrawCircleHole(false);
-            dataSet.setLineWidth(2f);
-            dataSet.setCircleRadius(4f);
+            dataSet.setLineWidth(2f); //sets width of graphed line
+            dataSet.setCircleRadius(4f); //sets size of data points
             LineData lineData = new LineData(dataSet);
             lineData.setDrawValues(false);
+
             graph.setData(lineData);
-            graph.getLegend().setEnabled(false);
-            graph.setDragXEnabled(true);
-            graph.setDoubleTapToZoomEnabled(false);
-            graph.setVisibleXRangeMaximum((float) AlarmManager.INTERVAL_DAY * 4 + AlarmManager.INTERVAL_HALF_DAY / 2);
-            graph.moveViewToX((float) moodArray.get(moodArray.size() - 1).getDateObj().getTime() - referenceTimestamp - AlarmManager.INTERVAL_DAY * 2);
-            graph.getDescription().setEnabled(false);
+            graph.setHighlightPerTapEnabled(false);
+            graph.setHighlightPerDragEnabled(false);
+            graph.getLegend().setEnabled(false); //disables legend
+            graph.setDragXEnabled(true); //allows scrolling
+            graph.setDoubleTapToZoomEnabled(false); //disables zooming
+            graph.setVisibleXRangeMaximum((float) AlarmManager.INTERVAL_DAY * 4 + AlarmManager.INTERVAL_HALF_DAY / 2); //sets x range so that only 5 day's worth of data is shown at a time
+            graph.moveViewToX((float) moodArray.get(moodArray.size() - 1).getDateObj().getTime() - referenceTimestamp - AlarmManager.INTERVAL_DAY * 2); //displays end of the graph where the data is the latest
+            graph.getDescription().setEnabled(false); //disables graph caption
             IAxisValueFormatter xAxisFormatter = new DateAxisFormatter(moodArray.get(0).getDateObj().getTime());
+
             YAxis yAxis = graph.getAxisLeft();
-            graph.getAxisRight().setEnabled(false);
+            graph.getAxisRight().setEnabled(false); //disables right y axis
             yAxis.setAxisMinimum(1f);
             yAxis.setAxisMaximum(7f);
-            yAxis.setGranularity(1f); // interval 1
-            yAxis.setLabelCount(7, true); // force 6 labels
+            yAxis.setGranularity(1f);
+            yAxis.setLabelCount(7, true); //sets y axis labels to increment from 1 to 7
             XAxis xAxis = graph.getXAxis();
-            xAxis.setValueFormatter(xAxisFormatter);
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setValueFormatter(xAxisFormatter); //formats x axis labels to be dates
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); //sets x axis to be at the bottom
             xAxis.setLabelCount(5, true);
             xAxis.setAvoidFirstLastClipping(true);
         }
-        graph.animateY(2000, Easing.EasingOption.EaseInOutElastic);
+        graph.animateY(2000, Easing.EasingOption.EaseInOutElastic); //animates graph when it is first created
     }
 
+    //sets color of graph based on selection in dropdown menu
     public void setGraphColor () {
         int[] color;
-        ArrayList<Integer> colors = new ArrayList<>();
         switch (spinner.getText().toString()) {
             case "Happy":
                 color = new int[] {R.color.LightOrange};
@@ -238,12 +241,13 @@ public class MoodGraphs extends SetupClass implements ReportDialog.ReportDialogL
     }
 }
 
+//Converts data to dates to be displayed on x axis
 class DateAxisFormatter implements IAxisValueFormatter {
-    private long referenceTimestamp; // minimum timestamp in your data set
+    private long referenceTimestamp; // minimum timestamp in data set
     private SimpleDateFormat mDataFormat;
     private Date mDate;
 
-    public DateAxisFormatter(long timestamp) {
+    DateAxisFormatter(long timestamp) {
         referenceTimestamp = timestamp;
         mDataFormat = new SimpleDateFormat("M/dd", Locale.ENGLISH);
         mDate = new Date();
@@ -251,11 +255,11 @@ class DateAxisFormatter implements IAxisValueFormatter {
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        // convertedTimestamp = originalTimestamp - referenceTimestamp
+        //convertedTimestamp = originalTimestamp - referenceTimestamp
         long convertedTimestamp = (long) value;
-        // Retrieve original timestamp
+        //retrieves original timestamp
         long originalTimestamp = referenceTimestamp + convertedTimestamp;
-        // Convert timestamp to hour:minute
+        //convert timestamp to hour:minute
         return getHour(originalTimestamp);
     }
 

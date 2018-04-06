@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+//Guides user through morning breathing exercise
 public class MorningBreathing extends BellyBreathing {
 
     @Override
@@ -19,7 +20,7 @@ public class MorningBreathing extends BellyBreathing {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextButton:
-                switch (counter){
+                switch (counter){ //determines what to display based on what step of the exercise the user is on
                     case 0:
                         counter++;
                         instructionText.setText("As you inhale slowly and deeply,\nreturn to a standing position by rolling up slowing,\nlifting your head last.");
@@ -38,7 +39,7 @@ public class MorningBreathing extends BellyBreathing {
                         break;
                 }
                 break;
-            case R.id.exitButton:
+            case R.id.exitButton: //goes to breathing exercises navigation page
                 myIntent = new Intent(MorningBreathing.this, BreathingExercises.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 MorningBreathing.this.startActivity(myIntent);

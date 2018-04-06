@@ -1,4 +1,5 @@
 package com.example.max.mentalhealthapp;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -8,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+//Guides user through 4-7-8 breathing exercise
 public class CountBreathing extends SetupClass implements View.OnClickListener{
-    int counter = 0;
-    int repetitions = -2;
+    int counter = 0; //keeps track of step of breathing exercise
+    int repetitions = -2; //keeps track of how many times exercise has been repeated, displays 0 first
     TextView instructionText, counterText, timerText;
     Button nextButton;
 
@@ -20,6 +22,7 @@ public class CountBreathing extends SetupClass implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setStatusBar(R.color.StatusBlue);
 
+        //creates references to layout elements
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(this);
         Button exitButton = (Button) findViewById(R.id.exitButton);
@@ -27,14 +30,14 @@ public class CountBreathing extends SetupClass implements View.OnClickListener{
         instructionText = (TextView) findViewById(R.id.instructionText);
         counterText = (TextView) findViewById(R.id.counterText);
         timerText = (TextView) findViewById(R.id.timerText);
-        timerText.setVisibility(View.GONE);
+        timerText.setVisibility(View.GONE); //makes text box that displays timer to be invisible since it is not being used yet
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextButton:
-                switch (counter){
+                switch (counter){ //determines what is displayed based on what step of the exercise the user is on
                     case 0:
                         counter++;
                         instructionText.setText("Put one hand on your belly and the other on your chest.");
@@ -46,13 +49,13 @@ public class CountBreathing extends SetupClass implements View.OnClickListener{
                         timerText.setText(String.valueOf(0));
                         counter++;
                         instructionText.setText("Take a deep,\nslow breath from your belly,\nand silently count to 4 as you breathe in.");
-                        nextButton.setClickable(false);
+                        nextButton.setClickable(false); //disables button to go to the next step until timer finishes
                         nextButton.setAlpha(.5f);
                         timerText.setVisibility(View.VISIBLE);
-                        new CountDownTimer(6000, 1000) {
+                        new CountDownTimer(6000, 1000) { //sets and starts timer to go from 0 to 4
                             public void onTick(long millisUntilFinished) {
                                 String text = String.valueOf(5-millisUntilFinished/1000);
-                                timerText.setText(text);
+                                timerText.setText(text); //displays timer value in text box
                                 if (text.equals("4")){
                                     nextButton.setClickable(true);
                                     nextButton.setAlpha(1f);
@@ -111,7 +114,7 @@ public class CountBreathing extends SetupClass implements View.OnClickListener{
                         break;
                 }
                 break;
-            case R.id.exitButton:
+            case R.id.exitButton: //sends user to breathing exercises navigation page
                 myIntent = new Intent(CountBreathing.this, BreathingExercises.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 CountBreathing.this.startActivity(myIntent);

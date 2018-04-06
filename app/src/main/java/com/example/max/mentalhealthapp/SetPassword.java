@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-//Sets password. Password has to be entered twice to set it.
+//Sets password and the password has to be entered twice to confirm it
 public class SetPassword extends LockScreen{
 
     boolean confirm = false;
