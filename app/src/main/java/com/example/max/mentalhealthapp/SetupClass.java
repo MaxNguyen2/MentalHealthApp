@@ -40,7 +40,7 @@ public class SetupClass extends AppCompatActivity {
 
     //sets up navigation list with the pages for the different features
     public void addDrawerItems() {
-        String[] navArray = {"Home", "Mood Monitoring", "Safety Plan", "Breathing Exercises", "Crisis Lines", "Information", "Settings"};
+        String[] navArray = {"Home", "Mood Monitoring", "Safety Plan", "Breathing Exercises", "Settings"};
         mAdapter = new ArrayAdapter<>(this, R.layout.roboto_medium_list, navArray);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.bringToFront();
@@ -67,6 +67,11 @@ public class SetupClass extends AppCompatActivity {
                         break;
                     case 3:
                         myIntent = new Intent(SetupClass.this, BreathingExercises.class);
+                        SetupClass.this.startActivity(myIntent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        break;
+                    case 4:
+                        myIntent = new Intent(SetupClass.this, SettingsActivity.class);
                         SetupClass.this.startActivity(myIntent);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         break;

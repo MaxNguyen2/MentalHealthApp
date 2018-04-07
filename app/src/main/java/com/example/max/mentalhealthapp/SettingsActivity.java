@@ -116,7 +116,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             else if (!prefs.getString("password", "").equals("") && !switched)
                 password.setChecked(true);
 
-            //stores value of switch 
+            //stores value of switch
             editor.putBoolean("pin", password.isChecked());
             editor.commit();
             super.onResume();

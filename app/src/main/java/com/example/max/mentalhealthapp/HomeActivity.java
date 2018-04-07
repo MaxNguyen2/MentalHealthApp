@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 //Home navigation page
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
@@ -18,7 +19,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_home);
 
         //creates references to layout elements
-        Button settings = (Button) findViewById(R.id.settingsButton);
+        ImageView settings = (ImageView) findViewById(R.id.settingsButton);
         settings.setOnClickListener(this);
         Button mood = (Button) findViewById(R.id.moodButton);
         mood.setOnClickListener(this);

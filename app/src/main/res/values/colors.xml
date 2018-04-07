@@ -16,4 +16,5 @@
     <color name="LightBlue">#8cd3ed</color>
     <color name="TextBlue">#2097ff</color>
     <color name="StatusBlue">#0077df</color>
+    <color name = "StatusGrey">#616161</color>
 </resources>
