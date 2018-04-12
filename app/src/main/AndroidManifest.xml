@@ -61,7 +61,8 @@
         <activity android:name=".BreathingExercises" />
         <activity android:name=".BellyBreathing" />
         <activity android:name=".MorningBreathing" />
-        <activity android:name=".CountBreathing"></activity>
+        <activity android:name=".CountBreathing" />
+        <activity android:name=".CrisisLines"></activity>
     </application>
 
 </manifest>

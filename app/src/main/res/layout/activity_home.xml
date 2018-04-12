@@ -54,7 +54,7 @@
         android:textColor="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineA"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -72,24 +72,30 @@
         app:layout_constraintGuide_percent="0.50" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/guidelineA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.37333333" />
+        app:layout_constraintGuide_percent="0.295" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline4"
+        android:id="@+id/guidelineB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.686666666" />
+        app:layout_constraintGuide_percent="0.53" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.765" />
 
     <Button
         android:id="@+id/breathingButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:background="@color/BreathingBlue"
@@ -99,10 +105,34 @@
         android:textColor="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineB"
+        tools:clickable="true"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineC"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/crisisButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/CrisisGreen"
+        android:foreground="?attr/selectableItemBackground"
+        android:stateListAnimator="@null"
+        android:text="Crisis Lines"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/guidelineC"
         tools:clickable="true" />
 
     <Button
@@ -120,11 +150,11 @@
         android:textColor="@android:color/background_light"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineB"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guidelineA"
         tools:clickable="true" />
 
 </android.support.constraint.ConstraintLayout>

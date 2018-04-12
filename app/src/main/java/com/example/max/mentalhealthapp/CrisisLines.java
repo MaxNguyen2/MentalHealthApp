@@ -11,13 +11,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.os.Bundle;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -31,10 +29,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
-//Third section of the safety plan feature where users can import contacts of friends and family to a list
-public class FamilyContact extends SetupClass {
+
+public class CrisisLines extends SetupClass {
     private static final int CONTACT_PICKER_RESULT = 1001;
-    ListView familyList;
+    ListView crisisList;
     SharedPreferences prefs;
     int index;
     Animation animation;
@@ -44,13 +42,13 @@ public class FamilyContact extends SetupClass {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_family_contact);
+        setContentView(R.layout.activity_crisis_lines);
         super.onCreate(savedInstanceState);
-        setStatusBar(R.color.StatusRed);
-
+        setStatusBar(R.color.StatusGreen);
+        key = "crisisList";
         prefs = getSharedPreferences("key", Context.MODE_PRIVATE);
-        familyList = (ListView) findViewById(R.id.familyList);
-        key = "familyList"; //sets key for storing the list of contacts
+        crisisList = (ListView) findViewById(R.id.crisisList);
+        setArrayAdapter();
         setArrayAdapter(); //fills list view with previously saved list
         setAnimation(); //sets up animation object for when items are deleted
         setListListener(); //allows detection of when list items are clicked
@@ -65,13 +63,19 @@ public class FamilyContact extends SetupClass {
     }
 
     public void setArrayAdapter() {
-        if (prefs.getString(key, "").equals(""))
+        if (prefs.getString(key, "").equals("")) {
             items = new ArrayList<>();
+            items.add("National Prevention Lifeline | (800) 273-8255");
+            items.add("National Domestic Violence Hotline | (800) 799-SAFE");
+            items.add("Gay and Lesbian National Hotline | (888) 843-4564");
+            items.add("Eating Disorders Center | (888) 236-1188");
+            items.add("Poison Control | (800) 942-5969");
+        }
         else
             items = new Gson().fromJson(prefs.getString(key, ""), new TypeToken<ArrayList<String>>() {
             }.getType());
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        familyList.setAdapter(itemsAdapter);
+        crisisList.setAdapter(itemsAdapter);
     }
 
     //sets animation object for when objects are deleted
@@ -97,11 +101,11 @@ public class FamilyContact extends SetupClass {
 
     //opens dialog when list item is clicked allowing users to call or delete the contact
     public void setListListener() {
-        familyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        crisisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(FamilyContact.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(CrisisLines.this);
                 builder
-                        .setMessage("Choose whether to call this contact, delete this contact from this list, or cancel.")
+                        .setMessage("Choose whether to call this hotline, delete this hotline from this list, or cancel.")
                         .setPositiveButton("CALL", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) { //calls contact
                                 index = position;
@@ -109,7 +113,7 @@ public class FamilyContact extends SetupClass {
                                 askForPermission();
                             }
                         })
-                        .setNeutralButton("DELETE CONTACT", new DialogInterface.OnClickListener() {
+                        .setNeutralButton("DELETE HOTLINE", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) { //deletes contact
                                 index = position;
                                 view.startAnimation(animation);
@@ -127,7 +131,7 @@ public class FamilyContact extends SetupClass {
     //opens dialog for users to import contact
     public void launchContactPicker() {
         Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
-                Contacts.CONTENT_URI);
+                ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
     }
 
@@ -139,11 +143,11 @@ public class FamilyContact extends SetupClass {
             Uri result = data.getData();
             String id = result.getLastPathSegment();
             Cursor cursor = getContentResolver().query(
-                    Phone.CONTENT_URI, null,
-                    Phone.CONTACT_ID + "=?",
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
                     new String[]{id}, null);
             int nameIdx = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-            int phoneIdx = cursor.getColumnIndex(Phone.NUMBER);
+            int phoneIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
             //gets the name of the contact and phone number of the contact
             if (cursor.moveToFirst()) {
